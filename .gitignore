@@ -1,0 +1,3 @@
+# Ignorar binarios y código objeto
+/Debug/src
+/Debug/ConcuStation
