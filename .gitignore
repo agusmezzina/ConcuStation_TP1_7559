@@ -1,3 +1,5 @@
-# Ignorar binarios y código objeto
+# Ignorar binarios - código objeto - temporales
 /Debug/src
 /Debug/ConcuStation
+/docs/*.aux
+/docs/*.log

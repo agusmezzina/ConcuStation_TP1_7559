@@ -1,0 +1,36 @@
+% informe.tex - Documentación sobre el trabajo práctico para entregar
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+
+\begin{document}
+
+\title{Informe Trabajo Práctico 1}
+\author{Victoria Perelló (89608)\\
+        \and
+        Agustín Mezzina (89637)\\
+	\and
+        Pablo Rodríguez (93970)}
+\maketitle
+
+\section{Procesos}
+La aplicación se divide en los siguientes procesos:
+\begin{enumerate}
+\item Init: llena la cola de autos entrantes.
+\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha.
+\item Empleado: asigna autos a surtidores libres. Si no hay surtidores libres, espera a que se libere alguno. Realiza el servicio. Cobra y guarda la recaudación en la caja.
+\item Consulta caja registradora: consulta asincrónica sobre el valor de la recaudación en caja.
+\end{enumerate}
+
+\section{Comunicación entre procesos}
+En el siguiente diagrama, se muestra el esquema de comunicación entre los procesos del sistema. Incluye los datos que intercambian los procesos que se comunican entre sí y los recursos a los que deben acceder de manera concurrente.
+\\[1\baselineskip]
+\includegraphics[width=\textwidth]{overview}
+
+\section{Problemas conocidos de concurrencia}
+
+\section{Mecanismos de concurrencia a utilizar}
+
+\end{document}
