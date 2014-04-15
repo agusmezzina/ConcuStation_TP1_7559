@@ -10,6 +10,6 @@
 using namespace std;
 
 int main() {
-	cout << "Hola mundo" << endl;
+	cout << "Soy Init. Mi pid es:" << getpid() << endl;
 	return 0;
 }
