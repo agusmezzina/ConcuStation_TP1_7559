@@ -11,25 +11,35 @@ DIR_E=src/Empleado
 DIR_CC=src/ConsultarCaja
 DIR_CM=src/Common
 
+#Agregar headers y archivos de código nuevos de la carpeta src
+DEPS= #$(DIR)/Ejemplo.h
+OBJ=$(ODIR)/$(DIR)/ConcuStation.o
+
 #Agregar headers y archivos de código nuevos de la carpeta src/JefeEstacion
 DEPS_JE=$(DIR_JE)/JefeEstacion.h
-OBJ_JE=$(ODIR)/$(DIR_JE)/main.o $(ODIR)/$(DIR_JE)/JefeEstacion.o
+OBJ_JE=$(ODIR)/$(DIR_JE)/main.o \
+       $(ODIR)/$(DIR_JE)/JefeEstacion.o
 
 #Agregar headers y archivos de código nuevos de la carpeta src/Empleado
 DEPS_E=$(DIR_E)/Empleado.h
-OBJ_E=$(ODIR)/$(DIR_E)/main.o $(ODIR)/$(DIR_E)/Empleado.o
+OBJ_E=$(ODIR)/$(DIR_E)/main.o \
+      $(ODIR)/$(DIR_E)/Empleado.o
 
 #Agregar headers y archivos de código nuevos de la carpeta src/ConsultarCaja
 DEPS_CC=$(DIR_CC)ConsultarCaja.h
-OBJ_CC=$(ODIR)/$(DIR_CC)/main.o $(ODIR)/$(DIR_CC)/ConsultarCaja.o
-
-#Agregar headers y archivos de código nuevos de la carpeta src
-DEPS=
-OBJ=$(ODIR)/$(DIR)/ConcuStation.o
+OBJ_CC=$(ODIR)/$(DIR_CC)/main.o \
+       $(ODIR)/$(DIR_CC)/ConsultarCaja.o
 
 #Agregar headers y archivos de código nuevos de la carpeta src/Common
-DEPS_CM=$(DIR_CM)/EventHandler.h $(DIR_CM)/MemoriaCompartida2.h $(DIR_CM)/ProcessManager.h $(DIR_CM)/SIGINT_Handler.h $(DIR_CM)/SignalHandler.h
-OBJ_CM=$(ODIR)/$(DIR_CM)/ProcessManager.o $(ODIR)/$(DIR_CM)/SignalHandler.o
+DEPS_CM=$(DIR_CM)/EventHandler.h \
+        $(DIR_CM)/MemoriaCompartida2.h \
+        $(DIR_CM)/ProcessManager.h \
+        $(DIR_CM)/SIGINT_Handler.h \
+        $(DIR_CM)/SignalHandler.h
+OBJ_CM=$(ODIR)/$(DIR_CM)/ProcessManager.o \
+       $(ODIR)/$(DIR_CM)/SignalHandler.o
+
+#--------------------------------------------------------------------------------------------------------------
 
 $(ODIR)/$(DIR)/%.o: $(DIR)/%.cpp $(DEPS)
 	@mkdir -p $(@D)
