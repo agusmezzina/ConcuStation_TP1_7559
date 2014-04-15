@@ -18,7 +18,7 @@ using namespace std;
 class ProcessManager {
 public:
 	ProcessManager();
-	void static run(string binary);
+	void static run(string path, string filename);
 	virtual ~ProcessManager();
 };
 

@@ -6,6 +6,7 @@
  */
 
 #include "ProcessManager.h"
+#include <errno.h>
 using namespace std;
 
 ProcessManager::ProcessManager() {
@@ -13,7 +14,22 @@ ProcessManager::ProcessManager() {
 
 }
 
-void ProcessManager::run(string binary){
+void ProcessManager::run(string path, string filename){
+	pid_t id = fork ();
+
+		if ( id == 0 ) {
+
+			int result = execl(path.c_str(), filename.c_str(), (char*) 0);
+			cout << result << endl;
+			cout << errno << endl;
+
+		} else {
+
+			cout << "Padre: Hola, soy el proceso padre.  Mi process ID es " << getpid() << endl;
+			cout << "Padre: El process ID de mi hijo es " << id << endl;
+
+			exit ( 0 );
+		}
 }
 
 ProcessManager::~ProcessManager() {
