@@ -14,7 +14,7 @@ ProcessManager::ProcessManager() {
 
 }
 
-void ProcessManager::run(string path, string filename){
+void ProcessManager::run(const string& path, const string& filename){
 	pid_t id = fork ();
 
 		if ( id == 0 ) {

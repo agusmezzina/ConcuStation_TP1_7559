@@ -16,9 +16,10 @@
 using namespace std;
 
 class ProcessManager {
-public:
+private:
 	ProcessManager();
-	void static run(string path, string filename);
+public:
+	void static run(const string& path, const string& filename);
 	virtual ~ProcessManager();
 };
 

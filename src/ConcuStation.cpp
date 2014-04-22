@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <string>
 #include "Common/ProcessManager.h"
 using namespace std;
 

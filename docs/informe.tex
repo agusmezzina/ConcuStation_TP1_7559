@@ -18,10 +18,10 @@
 \section{Procesos}
 La aplicación se divide en los siguientes procesos:
 \begin{enumerate}
-\item Init: llena la cola de autos entrantes.
-\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha.
-\item Empleado: asigna autos a surtidores libres. Si no hay surtidores libres, espera a que se libere alguno. Realiza el servicio. Cobra y guarda la recaudación en la caja.
-\item Consulta caja registradora: consulta asincrónica sobre el valor de la recaudación en caja.
+	\item Init: llena la cola de autos entrantes.
+	\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha.
+	\item Empleado: asigna autos a surtidores libres. Si no hay surtidores libres, espera a que se libere alguno. Realiza el servicio. Cobra y guarda la recaudación en la caja.
+	\item Consulta caja registradora: consulta asincrónica sobre el valor de la recaudación en caja.
 \end{enumerate}
 
 \section{Comunicación entre procesos}
@@ -30,7 +30,12 @@ En el siguiente diagrama, se muestra el esquema de comunicación entre los proce
 \includegraphics[width=\textwidth]{overview}
 
 \section{Problemas conocidos de concurrencia}
-
+\begin{enumerate}
+	\item Init - Jefe de estación: Productor - Consumidor. El proceso base hace las veces de Productor, ingresando autos nuevos a un buffer compartido donde posteriormente el Jefe de Estación, en este caso Consumidor, los retira según su orden de llegada y los procesa.
+	\item Jefe de estación - Empleado(s):
+	\item Empleado - Empleado: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda a los recursos Surtidores.
+	\item Empleado(s) - Consultar Caja: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda al recurso Caja.
+\end{enumerate}
 \section{Mecanismos de concurrencia a utilizar}
 
 \end{document}
