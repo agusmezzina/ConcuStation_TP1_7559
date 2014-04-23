@@ -60,7 +60,7 @@ ConcuStation: $(OBJ) $(OBJ_CM)
 	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS)
 
 JefeEstacion: $(OBJ_JE) $(OBJ_CM)
-	$(CC) $(OBJ_JE) -o $(ODIR)/$@ $(CFLAGS)
+	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS)
 	
 Empleado: $(OBJ_E) $(OBJ_CM)
 	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS)
