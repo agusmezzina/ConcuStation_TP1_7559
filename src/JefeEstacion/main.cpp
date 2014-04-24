@@ -12,26 +12,28 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	cout << "Soy el jefe de estación. Mi pid es:" << getpid() << endl;
 	istringstream ss(argv[1]);
 	int fd;
 	if (!(ss >> fd))
 	    cerr << "Invalid number " << argv[1] << '\n';
 
-	cout << fd <<endl;
 	Pipe canal;
 	dup2(fd, canal.getFdLectura());
 	char buffer[100];
+	bool salir = false;
 
-	ssize_t bytesLeidos = canal.leer ( static_cast<void*>(buffer),100 );
-	std::string mensaje = buffer;
-	mensaje.resize ( bytesLeidos );
+	while(!salir){
+		ssize_t bytesLeidos = canal.leer ( static_cast<void*>(buffer),100 );
+		string mensaje = buffer;
+		mensaje.resize ( bytesLeidos );
+		cout << "JE: Leí el mensaje " << mensaje << endl;
+		if(mensaje == "q")
+			salir = true;
+	}
 
-	cout << "JE: Leí el mensaje " << mensaje << endl;
-
+	cout << "JE: Final" << endl;
 	canal.cerrar();
 
-	return 0;
 	return 0;
 }
 

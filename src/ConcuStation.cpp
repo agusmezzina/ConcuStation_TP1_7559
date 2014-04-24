@@ -11,28 +11,39 @@
 #include <sstream>
 #include "Common/ProcessManager.h"
 #include "Common/Pipe.h"
+#include "Common/Auto.h"
 using namespace std;
 
-int main() {
-	cout << "Soy Init. Mi pid es:" << getpid() << endl;
-
-	Pipe canal;
-
+string getString(int number){
 	string result;
 	stringstream convert;
-	convert << canal.getFdLectura();
+	convert << number;
 	result = convert.str();
+	return result;
+}
 
+int main() {
+	Pipe canal;
+
+	string fdArg = getString(canal.getFdLectura());
 	const char* path = "bin/JefeEstacion";
-	char* const argv[] = { const_cast<char*>(path), const_cast<char*>(result.c_str()), (char*) 0 };
+	char* const argv[] = { const_cast<char*>(path), const_cast<char*>(fdArg.c_str()), (char*) 0 };
 	ProcessManager::run(path, argv);
 
-	//canal.setearModo(Pipe::ESCRITURA);
-	string mensaje = "Hola jefe de estación!";
-	canal.escribir ( static_cast<const void*>(mensaje.c_str()),mensaje.size() );
+	string patente;
+	bool salir = false;
 
-	cout << "CS: Escribí el mensaje: " << mensaje << endl;
+	while(!salir) {
+		cin >> patente;
+		if(patente == "q")
+			salir = true;
+		//Limito cadena de entrada para evitar desbordamientos en el canal.
+		patente = patente.substr(0, 6);
+		canal.escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
+	}
 
+	ProcessManager::wait();
+	cout << "CS: Final" << endl;
 	canal.cerrar();
 
 	return 0;

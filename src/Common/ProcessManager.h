@@ -12,12 +12,15 @@
 #include <stdlib.h>
 #include <iostream>
 #include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 class ProcessManager {
 private:
 	ProcessManager();
 public:
 	pid_t static run(const char* path, char* const argv[]);
+	void static wait();
 	virtual ~ProcessManager();
 };
 
