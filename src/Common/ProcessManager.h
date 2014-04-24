@@ -10,16 +10,17 @@
 
 #include <unistd.h>
 #include <stdlib.h>
-#include <string>
 #include <iostream>
-
-using namespace std;
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 
 class ProcessManager {
 private:
 	ProcessManager();
 public:
-	void static run(const string& path, const string& filename);
+	pid_t static run(const char* path, char* const argv[]);
+	void static wait();
 	virtual ~ProcessManager();
 };
 
