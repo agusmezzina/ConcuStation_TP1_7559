@@ -37,5 +37,15 @@ En el siguiente diagrama, se muestra el esquema de comunicación entre los proce
 	\item Empleado(s) - Consultar Caja: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda al recurso Caja.
 \end{enumerate}
 \section{Mecanismos de concurrencia a utilizar}
+Se agregaron en el diagrama los mecanismos utilizados para lograr la comunicación y sincronización de procesos
+\\[1\baselineskip]
+\includegraphics[width=\textwidth]{overview+mecanismos}
+\begin{enumerate}
+        \item Init - Jefe de estación. El buffer de autos se implementó utilizando un named pipe (o FIFO), de manera que el proceso inicial ingresa los autos al canal a medida que los va produciendo y el jefe de estación los toma en orden para procesarlos. Este mecanismo de concurrencia provee no sólo comunicación entre ambos procesos, sino que también sincronismo.
+	\item Jefe de estación - Empleado(s).
+	\item Empleado - Empleado: Sección Crítica.
+	\item Empleado(s) - Consultar Caja.
 
+\end{enumerate}
+					
 \end{document}
