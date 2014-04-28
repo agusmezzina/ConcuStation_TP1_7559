@@ -6,32 +6,29 @@
  */
 
 #include <unistd.h>
-#include <sstream>
 #include <iostream>
-#include "../Common/Pipe.h"
+#include "../Common/FifoLectura.h"
 using namespace std;
 
 int main(int argc, char *argv[]) {
-	istringstream ss(argv[1]);
-	int fd;
-	if (!(ss >> fd))
-	    cerr << "Invalid number " << argv[1] << '\n';
+	static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
+	static const int BUFFSIZE = 50;
 
-	Pipe canal;
-	dup2(fd, canal.getFdLectura());
-	char buffer[100];
+	FifoLectura canal(ARCHIVO_FIFO);
+	char buffer[BUFFSIZE];
 	bool salir = false;
+	canal.abrir();
 
 	while(!salir){
 		ssize_t bytesLeidos = canal.leer ( static_cast<void*>(buffer),100 );
 		string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
-		cout << "JE: Leí el mensaje " << mensaje << endl;
+		cout << "[JefeEstación] Leí el mensaje " << mensaje << endl;
 		if(mensaje == "q")
 			salir = true;
 	}
 
-	cout << "JE: Final" << endl;
+	cout << "[JefeEstacion] Final" << endl;
 	canal.cerrar();
 
 	return 0;

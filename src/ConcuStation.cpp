@@ -10,8 +10,7 @@
 #include <string>
 #include <sstream>
 #include "Common/ProcessManager.h"
-#include "Common/Pipe.h"
-#include "Common/Auto.h"
+#include "Common/FifoEscritura.h"
 using namespace std;
 
 string getString(int number){
@@ -23,15 +22,16 @@ string getString(int number){
 }
 
 int main() {
-	Pipe canal;
+	static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
+	FifoEscritura canal(ARCHIVO_FIFO);
 
-	string fdArg = getString(canal.getFdLectura());
 	const char* path = "bin/JefeEstacion";
-	char* const argv[] = { const_cast<char*>(path), const_cast<char*>(fdArg.c_str()), (char*) 0 };
+	char* const argv[] = { const_cast<char*>(path), (char*) 0 };
 	ProcessManager::run(path, argv);
 
 	string patente;
 	bool salir = false;
+	canal.abrir();
 
 	while(!salir) {
 		cin >> patente;
@@ -40,11 +40,13 @@ int main() {
 		//Limito cadena de entrada para evitar desbordamientos en el canal.
 		patente = patente.substr(0, 6);
 		canal.escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
+		cout << "[Init] Escribí la patente " << patente << endl;
 	}
 
 	ProcessManager::wait();
-	cout << "CS: Final" << endl;
+	cout << "[Init] Final" << endl;
 	canal.cerrar();
+	canal.eliminar();
 
 	return 0;
 }
