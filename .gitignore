@@ -1,5 +1,11 @@
 # Ignorar binarios - código objeto - temporales
 /bin
+src/*/obj
+src/*/bin
+src/bin
+src/obj
 /docs/*.aux
 /docs/*.log
 *~
+*.cbp
+*.layout
