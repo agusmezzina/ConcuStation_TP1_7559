@@ -47,9 +47,24 @@ int main(int argc, char* argv[]) {
     }
     //No los destruyo nunca!! Hay que arreglar eso
 
+    //Incializo el semaforo general para los surtidores
 
-	static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
+    //Incializo los sectores de transferencia a empleados (mem compartida + semaforo de proteccion
+    // + semaforo para productor-consumidor
+
+    //Creo e inicializo la Caja (mem compartida + semaforo)
+
+    //creo el fifo para la comunicacion jefeEstacion-init
+    static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
 	FifoEscritura canal(ARCHIVO_FIFO);
+
+    //lanzo jefeEstacion
+
+    //lanzo Empleados
+
+    //Genero autos y los paso
+
+
 
 	const char* path = "bin/JefeEstacion";
 	char* const argvE[] = { const_cast<char*>(path), (char*) 0 };
