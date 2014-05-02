@@ -1,6 +1,6 @@
 //============================================================================
 // Name        : ConcuStation.cpp
-// Author      : 
+// Author      :
 // Version     :
 // Copyright   :
 // Description :
@@ -9,9 +9,16 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
 #include "Common/ProcessManager.h"
 #include "Common/FifoEscritura.h"
-using namespace std;
+#include "Common/Surtidor.h"
+using std::string;
+using std::stringstream;
+using std::cout;
+using std::cin;
+using std::endl;
+using std::vector;
 
 string getString(int number){
 	string result;
@@ -21,13 +28,32 @@ string getString(int number){
 	return result;
 }
 
-int main() {
+int main(int argc, char* argv[]) {
+    int cantEmpleados;
+    int cantSurtidores;
+
+    cout << "Bienvenido a la ConcuStation" << endl;
+    cout << "Ingrese el nro de empleados" << endl;
+    cin >> cantEmpleados;
+    cout << "Ingrese el nro de surtidores" << endl;
+    cin >> cantSurtidores;
+    //UN ARCHIVO CON PERMISO DE LECTURO Y QUE LO ENCUENTRE
+    static const string SURTIDOR = "./ConcuStation.log";
+
+    //inicializo surtidores
+    vector<Surtidor*> surtidores;
+    for(char i=0;i<cantSurtidores;i++){
+        surtidores.push_back(new Surtidor(SURTIDOR,i,i,1));
+    }
+    //No los destruyo nunca!! Hay que arreglar eso
+
+
 	static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
 	FifoEscritura canal(ARCHIVO_FIFO);
 
 	const char* path = "bin/JefeEstacion";
-	char* const argv[] = { const_cast<char*>(path), (char*) 0 };
-	ProcessManager::run(path, argv);
+	char* const argvE[] = { const_cast<char*>(path), (char*) 0 };
+	ProcessManager::run(path, argvE);
 
 	string patente;
 	bool salir = false;
