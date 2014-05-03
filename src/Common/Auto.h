@@ -12,9 +12,11 @@
 
 class Auto {
 private:
-	std::string patente;
+	char patente[4];
 public:
 	Auto(std::string patente);
+	Auto(const Auto& a);
+	Auto& operator=(const Auto& a);
 	std::string getPatente();
 	virtual ~Auto();
 };

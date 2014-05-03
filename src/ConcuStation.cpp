@@ -13,6 +13,7 @@
 #include "Common/ProcessManager.h"
 #include "Common/FifoEscritura.h"
 #include "Common/Surtidor.h"
+#include "Common/TransferenciaEmpleado.h"
 using std::string;
 using std::stringstream;
 using std::cout;
@@ -39,6 +40,7 @@ int main(int argc, char* argv[]) {
     cin >> cantSurtidores;
     //UN ARCHIVO CON PERMISO DE LECTURO Y QUE LO ENCUENTRE
     static const string SURTIDOR = "./ConcuStation.log";
+    static const string TRANSFERENCIA = "./transferencia";
 
     //inicializo surtidores
     vector<Surtidor*> surtidores;
@@ -48,9 +50,14 @@ int main(int argc, char* argv[]) {
     //No los destruyo nunca!! Hay que arreglar eso
 
     //Incializo el semaforo general para los surtidores
+    Semaforo semSurtidores(SURTIDOR,cantSurtidores,cantSurtidores);
 
     //Incializo los sectores de transferencia a empleados (mem compartida + semaforo de proteccion
     // + semaforo para productor-consumidor
+    vector<TransferenciaEmpleado*> transferencias;
+    for(char i=0;i<cantEmpleados;i++){
+        transferencias.push_back(new TransferenciaEmpleado(TRANSFERENCIA,i,0,1,0));
+    }
 
     //Creo e inicializo la Caja (mem compartida + semaforo)
 
@@ -65,7 +72,7 @@ int main(int argc, char* argv[]) {
     //Genero autos y los paso
 
 
-
+/*
 	const char* path = "bin/JefeEstacion";
 	char* const argvE[] = { const_cast<char*>(path), (char*) 0 };
 	ProcessManager::run(path, argvE);
@@ -88,6 +95,18 @@ int main(int argc, char* argv[]) {
 	cout << "[Init] Final" << endl;
 	canal.cerrar();
 	canal.eliminar();
+*/
+    //Libero surtidores
+    for(char i=0;i<cantSurtidores;i++){
+        surtidores[i]->eliminarSemaforo();
+        delete surtidores[i];
+    }
+    semSurtidores.eliminar();
 
+    //Libero las transferencias
+    for(char i=0;i<cantEmpleados;i++){
+        transferencias[i]->eliminarSemaforos();
+        delete transferencias[i];
+    }
 	return 0;
 }
