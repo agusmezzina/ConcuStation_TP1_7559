@@ -14,6 +14,8 @@
 #include "Common/FifoEscritura.h"
 #include "Common/Surtidor.h"
 #include "Common/TransferenciaEmpleado.h"
+#include "Common/ControlEmpleados.h"
+#include "Common/Caja.h"
 using std::string;
 using std::stringstream;
 using std::cout;
@@ -39,8 +41,9 @@ int main(int argc, char* argv[]) {
     cout << "Ingrese el nro de surtidores" << endl;
     cin >> cantSurtidores;
     //UN ARCHIVO CON PERMISO DE LECTURO Y QUE LO ENCUENTRE
-    static const string SURTIDOR = "./ConcuStation.log";
+    static const string SURTIDOR = "./surtidor";
     static const string TRANSFERENCIA = "./transferencia";
+    static const string CAJA = "./caja";
 
     //inicializo surtidores
     vector<Surtidor*> surtidores;
@@ -58,8 +61,12 @@ int main(int argc, char* argv[]) {
     for(char i=0;i<cantEmpleados;i++){
         transferencias.push_back(new TransferenciaEmpleado(TRANSFERENCIA,i,0,1,0));
     }
+    ControlEmpleados controlEmpleados(TRANSFERENCIA,cantEmpleados,1);
+    controlEmpleados.setEmpleadosLibres(cantEmpleados);
 
     //Creo e inicializo la Caja (mem compartida + semaforo)
+    Caja caja(CAJA,0,1);
+    caja.setDinero(0);
 
     //creo el fifo para la comunicacion jefeEstacion-init
     static const string ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
@@ -108,5 +115,10 @@ int main(int argc, char* argv[]) {
         transferencias[i]->eliminarSemaforos();
         delete transferencias[i];
     }
+    controlEmpleados.eliminarSemaforo();
+
+    //Libero la caja
+    caja.eliminarSemaforo();
+
 	return 0;
 }
