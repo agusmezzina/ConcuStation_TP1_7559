@@ -8,31 +8,46 @@
 #include <unistd.h>
 #include <sstream>
 #include <iostream>
-#include "../Common/Pipe.h"
-using namespace std;
+#include <vector>
+#include <string>
+#include "../Common/TransferenciaEmpleado.h"
+#include "../Common/ControlEmpleados.h"
+#include "../Common/Caja.h"
+#include "../Common/Surtidor.h"
+#include "../Common/Log.h"
+using std::cout;
+using std::vector;
+using std::string;
 
 int main(int argc, char *argv[]) {
-	cout << "Soy el empleado. Mi pid es:" << getpid() << endl;
-	//cout << "Params = " << argc << endl;
-	//cout << argv[0] << endl;
-	//cout << argv[1] << endl;
-	istringstream ss(argv[1]);
-	int fd;
-	if (!(ss >> fd))
-	    cerr << "Invalid number " << argv[1] << '\n';
+    cout << "Soy el empleado. Mi pid es:" << getpid() << std::endl;
+    Log log("ConcuStation.log");
+    log.loggear("Soy Empleado pid "+ getpid());
+    std::fstream file;
+    file.open("logEmpleados",std::fstream::out | std::fstream::app);
+    file << "Soy el empleado. Mi pid es:" << getpid() << std::endl;
+    file.flush();
+    static const string SURTIDOR = "./surtidor";
+    static const string TRANSFERENCIA = "./transferencia";
+    static const string CAJA = "./caja";
+	int idEmpleado = atoi(argv[1]);
+    int cantSurtidores = atoi(argv[2]);
+    //cout << "id: " << idEmpleado << " cantSurtidores: " << cantSurtidores << std::endl;
+    file  << "id: " << idEmpleado << " cantSurtidores: " << cantSurtidores << std::endl;
+    file.flush();
+    TransferenciaEmpleado transf(TRANSFERENCIA,idEmpleado,idEmpleado);
+    Caja caja(CAJA,0);
+    vector<Surtidor*> surtidores;
+    for(int i=0;i<cantSurtidores;i++){
+        surtidores.push_back(new Surtidor(SURTIDOR,i,i));
+    }
+    file << "Inicialice recursos" << std::endl;
 
-	Pipe canal;
-	dup2(canal.getFdLectura(), fd);
-	char buffer[100];
-
-	ssize_t bytesLeidos = canal.leer ( static_cast<void*>(buffer),100 );
-	std::string mensaje = buffer;
-	mensaje.resize ( bytesLeidos );
-
-	cout << "JE: Leí el mensaje " << mensaje << endl;
-
-	canal.cerrar();
-
+    for(int i=0;i<cantSurtidores;i++){
+        delete surtidores[i];
+    }
+    file << "Termine!"<< std::endl;
+    file.close();
 	return 0;
 }
 
