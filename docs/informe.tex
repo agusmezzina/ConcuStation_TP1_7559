@@ -42,9 +42,10 @@ Se agregaron en el diagrama los mecanismos utilizados para lograr la comunicaci�
 \includegraphics[width=\textwidth]{overview+mecanismos}
 \begin{enumerate}
         \item Init - Jefe de estación. El buffer de autos se implementó utilizando un named pipe (o FIFO), de manera que el proceso inicial ingresa los autos al canal a medida que los va produciendo y el jefe de estación los toma en orden para procesarlos. Este mecanismo de concurrencia provee no sólo comunicación entre ambos procesos, sino que también sincronismo.
-	\item Jefe de estación - Empleado(s).
-	\item Empleado - Empleado: Sección Crítica.
-	\item Empleado(s) - Consultar Caja.
+	\item Jefe de estación - Empleado(s). Se utiliza memoria compartida para ver si hay empleados libres y para asignarle un auto a ese empleado.
+	*Ver lo de productor-consumidor*
+	\item Empleado - Empleado: Sección Crítica. se utilizan semáforos y memoria compartida.
+	\item Empleado(s) - Consultar Caja. Se utiliza un semaforo para controlar que no esté consultando o modificando la caja más de un proceso a la vez. Y se utiliza memoria compartida para guardar el valor de la caja.
 
 \end{enumerate}
 					
