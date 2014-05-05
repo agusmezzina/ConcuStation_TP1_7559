@@ -16,7 +16,6 @@ Surtidor::Surtidor(const string& name, const char letra, const int id):
 }
 
 Surtidor::~Surtidor(){
-    mem.liberar();
 }
 
 void Surtidor::eliminarSemaforo(){

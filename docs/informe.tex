@@ -49,5 +49,5 @@ Además cada Empleado mantiene con el Jefe de Estación otro espacio de memoria 
 Los Surtidores están guardados en bloques de memoria compartida accesibles a todos los Empleados. Dicho bloque está protegido por un semáforo general que permite el acceso al área de memoria cuando haya algún surtidor libre. Cada espacio de memoria donde se encuentra un surtidor está, a su vez, protegido por un semáforo binario.
 \subsection{Empleado(s) - Consultar Caja}
 Estos procesos acceden a un espacio de memoria compartida donde está la Caja. Dicho espacio está protegido por un semáforo para resolver el problema de sección crítica que se da cuando algún proceso quiera ingresar o extraer dinero de ella.
-					
+
 \end{document}
