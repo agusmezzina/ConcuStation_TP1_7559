@@ -2,6 +2,7 @@
 #include "LockSem.h"
 using std::string;
 
+
 Surtidor::Surtidor(const string& name, const char letra, const int id,
                 const int initValSem) : name(name),letra(letra),id(id),
                                 sem(name,letra,initValSem){
@@ -15,6 +16,11 @@ Surtidor::Surtidor(const string& name, const char letra, const int id):
         mem.crear(name,letra);
 }
 
+/*
+Surtidor::Surtidor(const std::string& name, const char letra, const int id):
+	id(id), mem(name, letra), sem(name, letra) {
+}
+*/
 Surtidor::~Surtidor(){
 }
 

@@ -1,7 +1,7 @@
 # Makefile para generar un ejecutable diferente para cada proceso.
 
 CC=g++
-CFLAGS=-O0 -Wall
+CFLAGS=-O0 -Wall -g3
 
 # Directorios de trabajo
 ODIR=bin
