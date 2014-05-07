@@ -6,6 +6,7 @@
  */
 
 #include <unistd.h>
+#include <stdlib.h>
 #include <sstream>
 #include <iostream>
 #include <vector>

@@ -6,11 +6,11 @@
 using std::string;
 
 Log::Log(const string& file, int initValSem): fileName(file),sem(file,0,initValSem){
-    this->file.open(file.c_str());
+	this->file.open(file.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 }
 
 Log::Log(const string& file): fileName(file),sem(file,0){
-    this->file.open(file.c_str());
+	this->file.open(file.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
 }
 
 void Log::eliminarSemaforo(){

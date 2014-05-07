@@ -2,6 +2,7 @@
 #define LOG_H_INCLUDED
 #include "Semaforo.h"
 #include <fstream>
+#include <iostream>
 
 class Log{
     public:
