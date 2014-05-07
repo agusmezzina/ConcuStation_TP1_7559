@@ -6,11 +6,13 @@
  */
 
 #include <unistd.h>
-#include <iostream>
 using namespace std;
+#include <iostream>
+#include <fstream>
 
 int main() {
 	cout << "Soy el consultar caja. Mi pid es:" << getpid() << endl;
+
 	return 0;
 }
 
