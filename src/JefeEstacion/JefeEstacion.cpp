@@ -7,7 +7,7 @@
 
 #include "JefeEstacion.h"
 
-JefeEstacion::JefeEstacion() {
+JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados) {
 	canal = NULL;
 }
 
@@ -15,6 +15,10 @@ const int JefeEstacion::BUFFSIZE;
 
 void JefeEstacion::iniciar(){
 	canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
+
+	for(char i=0;i<cantidadEmpleados;i++){
+		transferencias.push_back(new TransferenciaEmpleado(Constantes::TRANSFERENCIA,i,i));
+	}
 }
 
 int JefeEstacion::run(){
@@ -34,6 +38,11 @@ int JefeEstacion::run(){
 		file << "[JefeEstación] Leí el mensaje " << mensaje << std::endl;
 		if(mensaje == "q")
 			salir = true;
+		else
+		{
+			Auto a(mensaje);
+			//Procesar auto
+		}
 	}
 
 	file << "[JefeEstacion] Final" << std::endl;

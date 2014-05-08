@@ -37,8 +37,10 @@ void Estacion::iniciar(){
 }
 
 void Estacion::lanzarJefeEstacion(){
-
-	char* const argv[] = { const_cast<char*>(Constantes::pathJefeEstacion.c_str()), (char*) 0 };
+	std::stringstream ss;
+	ss << cantEmpleados;
+	std::string cant = ss.str();
+	char* const argv[] = { const_cast<char*>(Constantes::pathJefeEstacion.c_str()), const_cast<char*>(cant.c_str()), (char*) 0 };
 	ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
 	canal->abrir();
 }

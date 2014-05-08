@@ -11,17 +11,22 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 #include "../Common/FifoLectura.h"
 #include "../Common/Constantes.h"
+#include "../Common/Auto.h"
+#include "../Common/TransferenciaEmpleado.h"
 
 class JefeEstacion {
 private:
 	static const int BUFFSIZE = 50;
+	int cantidadEmpleados;
 	FifoLectura* canal;
+	std::vector<TransferenciaEmpleado*> transferencias;
 
 	void iniciar();
 public:
-	JefeEstacion();
+	JefeEstacion(int);
 	int run();
 	virtual ~JefeEstacion();
 };
