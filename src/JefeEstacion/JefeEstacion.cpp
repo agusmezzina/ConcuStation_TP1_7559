@@ -21,6 +21,18 @@ void JefeEstacion::iniciar(){
 	}
 }
 
+bool JefeEstacion::asignarAEmpleado(const Auto& a){
+	int contador = 0;
+	bool encontreLibre = false;
+
+	while((contador < cantidadEmpleados) || (!encontreLibre)){
+		TransferenciaEmpleado* te = transferencias[contador];
+		encontreLibre = te->ocuparSiEstaLibre(a);
+		contador++;
+	}
+	return encontreLibre;
+}
+
 int JefeEstacion::run(){
 	iniciar();
 
@@ -28,6 +40,7 @@ int JefeEstacion::run(){
 
 	std::fstream file;
 	file.open("logJefe",std::fstream::out);
+	file << "[JEFE] Mi pid es:" << getpid() << std::endl;
 	char buffer[BUFFSIZE];
 	bool salir = false;
 
@@ -35,17 +48,18 @@ int JefeEstacion::run(){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer),100 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
-		file << "[JefeEstación] Leí el mensaje " << mensaje << std::endl;
+		file << "[JEFE] Leí el mensaje " << mensaje << std::endl;
 		if(mensaje == "q")
 			salir = true;
 		else
 		{
 			Auto a(mensaje);
+			asignarAEmpleado(a);
 			//Procesar auto
 		}
 	}
 
-	file << "[JefeEstacion] Final" << std::endl;
+	file << "[JEFE] Final" << std::endl;
 	canal->cerrar();
 	file.close();
 	return 0;

@@ -25,6 +25,8 @@ private:
 	std::vector<TransferenciaEmpleado*> transferencias;
 
 	void iniciar();
+	//Devuelve false si no encontró empleado libre
+	bool asignarAEmpleado(const Auto& a);
 public:
 	JefeEstacion(int);
 	int run();

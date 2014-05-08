@@ -8,6 +8,7 @@
 #ifndef EMPLEADO_H_
 #define EMPLEADO_H_
 
+#include "../Common/Auto.h"
 #include "../Common/Caja.h"
 #include "../Common/Constantes.h"
 #include "../Common/Surtidor.h"

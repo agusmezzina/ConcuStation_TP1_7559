@@ -27,7 +27,11 @@ int Empleado::run(){
 	file << "[EMPLEADO" << id << "]Mi pid es:" << getpid() << std::endl;
 	iniciar();
 	file << "[EMPLEADO" << id << "] Inicialice recursos" << std::endl;
-
+	for(int i = 0; i < 10; i++){
+		Auto a = transferencia->atenderAuto();
+		file << "[EMPLEADO" << id << "] Atendí auto " << a.getPatente() << std::endl;
+		transferencia->terminarAtencion();
+	}
 	file << "[EMPLEADO" << id << "] Termine!"<< std::endl;
 	file.close();
 	return 0;
