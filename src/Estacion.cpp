@@ -30,8 +30,8 @@ void Estacion::iniciar(){
 		transferencias.push_back(new TransferenciaEmpleado(Constantes::TRANSFERENCIA,i,i,1,0));
 	}
 
-	controlEmpleados = new ControlEmpleados(Constantes::TRANSFERENCIA,cantEmpleados,1);
-	controlEmpleados->setEmpleadosLibres(cantEmpleados);
+    //controlEmpleados = new ControlEmpleados(Constantes::TRANSFERENCIA,cantEmpleados,1);
+	//controlEmpleados->setEmpleadosLibres(cantEmpleados);
 
 	semSurtidores = new Semaforo(Constantes::SURTIDOR,cantSurtidores,cantSurtidores);
 }
@@ -55,9 +55,8 @@ void Estacion::lanzarEmpleados(){
 		std::string id = ss.str();
 		char* const argvE[] = { const_cast<char*>(Constantes::pathEmpleado.c_str()),const_cast<char*>(id.c_str()), const_cast<char*>(cant.c_str()),(char*) NULL};
 		//file.flush();
-		ProcessManager::run(Constantes::pathEmpleado.c_str(), argvE);
-
-	    }
+		empleados.push_back(ProcessManager::run(Constantes::pathEmpleado.c_str(), argvE));
+	}
 }
 
 int Estacion::run(){
@@ -70,18 +69,36 @@ int Estacion::run(){
 	lanzarJefeEstacion();
 	lanzarEmpleados();
 
-	std::string patente;
-	bool salir = false;
+	//std::string patente;
+	//bool salir = false;
 
-	while(!salir) {
-		std::cin >> patente;
-		if(patente == "q")
-			salir = true;
+	//while(!salir) {
+	//	std::cin >> patente;
+	//	if(patente == "q")
+	//		salir = true;
+	for(char i = 'a'; i < 'z'; i++){
+		//std::stringstream ss;
+		//ss << i;
+		char str[2];
+		str[0] = i;
+		str[1] = '\0';
+		std::string patente(str);
+		patente = "aa" + patente;
 		//Limito cadena de entrada para evitar desbordamientos en el canal.
 		patente = patente.substr(0, 6);
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
 		file << "[Init] Escribí la patente " << patente << std::endl;
 		file.flush();
+	}
+	sleep(5);
+	std::string salir = "q";
+	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
+	file << "[Init] Escribí la patente " << salir << std::endl;
+	file.flush();
+	//}
+
+	for(int i = 0; i < cantEmpleados; i++){
+		kill(empleados[i], 9);
 	}
 
 	ProcessManager::wait();
@@ -111,7 +128,7 @@ Estacion::~Estacion() {
 		transferencias[i]->eliminarSemaforos();
 		delete transferencias[i];
 	}
-	controlEmpleados->eliminarSemaforo();
+	//controlEmpleados->eliminarSemaforo();
 
 	semSurtidores->eliminar();
 	delete(semSurtidores);

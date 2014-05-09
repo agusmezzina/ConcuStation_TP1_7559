@@ -20,6 +20,7 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <unistd.h>
 
 class Estacion {
 private:
@@ -32,6 +33,7 @@ private:
 	std::vector<TransferenciaEmpleado*> transferencias;
 	ControlEmpleados* controlEmpleados;
 	Semaforo* semSurtidores;
+	std::vector<pid_t> empleados;
 
 	void iniciar();
 	void lanzarJefeEstacion();

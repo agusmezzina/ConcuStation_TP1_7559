@@ -6,6 +6,7 @@
  */
 
 #include "Empleado.h"
+//#include <unistd.h>
 
 Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantSurtidores) {
 	caja = NULL;
@@ -27,7 +28,8 @@ int Empleado::run(){
 	file << "[EMPLEADO" << id << "]Mi pid es:" << getpid() << std::endl;
 	iniciar();
 	file << "[EMPLEADO" << id << "] Inicialice recursos" << std::endl;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 2; i++){
+		file << "[EMPLEADO" << id << "] Quiero leer" << std::endl;
 		Auto a = transferencia->atenderAuto();
 		file << "[EMPLEADO" << id << "] Atendí auto " << a.getPatente() << std::endl;
 		transferencia->terminarAtencion();

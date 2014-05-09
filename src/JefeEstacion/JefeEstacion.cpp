@@ -25,7 +25,7 @@ bool JefeEstacion::asignarAEmpleado(const Auto& a){
 	int contador = 0;
 	bool encontreLibre = false;
 
-	while((contador < cantidadEmpleados) || (!encontreLibre)){
+	while((contador < cantidadEmpleados) && (!encontreLibre)){
 		TransferenciaEmpleado* te = transferencias[contador];
 		encontreLibre = te->ocuparSiEstaLibre(a);
 		contador++;
@@ -43,9 +43,8 @@ int JefeEstacion::run(){
 	file << "[JEFE] Mi pid es:" << getpid() << std::endl;
 	char buffer[BUFFSIZE];
 	bool salir = false;
-
 	while(!salir){
-		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer),100 );
+		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
 		file << "[JEFE] Leí el mensaje " << mensaje << std::endl;
@@ -54,8 +53,10 @@ int JefeEstacion::run(){
 		else
 		{
 			Auto a(mensaje);
-			asignarAEmpleado(a);
-			//Procesar auto
+			//sleep(5);
+			bool libre = asignarAEmpleado(a);
+			if(!libre)
+				file << "[JEFE] Descarté " << mensaje << std::endl;
 		}
 	}
 

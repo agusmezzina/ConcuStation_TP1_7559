@@ -4,6 +4,7 @@
 #include "MemoriaCompartida2.h"
 #include "Auto.h"
 #include "EmpleadoOcupado.h"
+#include <fstream>
 
 class TransferenciaEmpleado{
     public:

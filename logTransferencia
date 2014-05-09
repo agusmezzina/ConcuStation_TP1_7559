@@ -1,0 +1,385 @@
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Libre!
+[PROCESO 0] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Libre!
+[PROCESO 1] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Libre!
+[PROCESO 2] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Libre!
+[PROCESO 3] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Libre!
+[PROCESO 4] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Libre!
+[PROCESO 5] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Libre!
+[PROCESO 6] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Ocupado!
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 2] Hago wait para atender
+[PROCESO 1] Inicio método
+[PROCESO 2] Puedo atender
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 6] Hago wait para atender
+[PROCESO 6] Puedo atender
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Hago wait para atender
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Libre!
+[PROCESO 6] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 3] Hago wait para atender
+[PROCESO 3] Puedo atender
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 3] Hago wait para atender
+[PROCESO 1] Hago wait para atender
+[PROCESO 1] Puedo atender
+[PROCESO 1] Hago wait para atender
+[PROCESO 6] Puedo atender
+[PROCESO 0] Hago wait para atender
+[PROCESO 0] Puedo atender
+[PROCESO 0] Hago wait para atender
+[PROCESO 5] Hago wait para atender
+[PROCESO 5] Puedo atender
+[PROCESO 5] Hago wait para atender
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Libre!
+[PROCESO 2] Hago wait para atender
+[PROCESO 2] Hice signal
+[PROCESO 2] Puedo atender
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Libre!
+[PROCESO 0] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Libre!
+[PROCESO 1] Hice signal
+[PROCESO 1] Puedo atender
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Libre!
+[PROCESO 1] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Libre!
+[PROCESO 2] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 4] Hago wait para atender
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 4] Puedo atender
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Libre!
+[PROCESO 3] Hice signal
+[PROCESO 4] Hago wait para atender
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Libre!
+[PROCESO 4] Hice signal
+[PROCESO 4] Puedo atender
+[PROCESO 0] Inicio método
+[PROCESO 0] Puedo atender
+[PROCESO 0] Tomé memoria
+[PROCESO 3] Puedo atender
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Libre!
+[PROCESO 3] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Libre!
+[PROCESO 0] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Libre!
+[PROCESO 4] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Libre!
+[PROCESO 5] Hice signal
+[PROCESO 5] Puedo atender
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Libre!
+[PROCESO 5] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Libre!
+[PROCESO 6] Hice signal
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Ocupado!
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Ocupado!
+[PROCESO 0] Inicio método
+[PROCESO 0] Tomé memoria
+[PROCESO 0] Ocupado!
+[PROCESO 1] Inicio método
+[PROCESO 1] Tomé memoria
+[PROCESO 1] Ocupado!
+[PROCESO 2] Inicio método
+[PROCESO 2] Tomé memoria
+[PROCESO 2] Ocupado!
+[PROCESO 3] Inicio método
+[PROCESO 3] Tomé memoria
+[PROCESO 3] Ocupado!
+[PROCESO 4] Inicio método
+[PROCESO 4] Tomé memoria
+[PROCESO 4] Ocupado!
+[PROCESO 5] Inicio método
+[PROCESO 5] Tomé memoria
+[PROCESO 5] Ocupado!
+[PROCESO 6] Inicio método
+[PROCESO 6] Tomé memoria
+[PROCESO 6] Ocupado!
