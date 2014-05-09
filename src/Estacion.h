@@ -17,6 +17,8 @@
 #include "Common/ControlEmpleados.h"
 #include "Common/TransferenciaEmpleado.h"
 #include "Common/Log.h"
+#include "Common/SIGINT_Handler.h"
+#include "Common/SignalHandler.h"
 #include <vector>
 #include <sstream>
 #include <iostream>
@@ -29,7 +31,7 @@ private:
 	int cantSurtidores;
 
     Log log;
-
+    SIGINT_Handler sigint_handler;
 	Caja* caja;
 	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
 	std::vector<Surtidor*> surtidores;
@@ -39,6 +41,7 @@ private:
 	std::vector<pid_t> empleados;
 
 	void iniciar();
+	void lanzarLectorComandos();
 	void lanzarJefeEstacion();
 	void lanzarEmpleados();
 

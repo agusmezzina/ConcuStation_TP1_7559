@@ -11,13 +11,14 @@ const std::string Constantes::SURTIDOR = "./surtidor";
 const std::string Constantes::TRANSFERENCIA = "./transferencia";
 const std::string Constantes::CAJA = "./caja";
 
-const std::string Constantes::pathEmpleado = "./Empleado/bin/Debug/empleado";
-const std::string Constantes::pathJefeEstacion = "./JefeEstacion/bin/Debug/jefeEstacion";
+const std::string Constantes::pathEmpleado = "bin/empleado";
+const std::string Constantes::pathJefeEstacion = "bin/jefeEstacion";
 const std::string Constantes::pathConsultarCaja = "bin/ConsultarCaja";
+const std::string Constantes::pathLectorComandos = "bin/LectorComandos";
 
 const std::string Constantes::ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
 
-const std::string Constantes::LOG="./ConcuStation.log";
+const std::string Constantes::LOG = "./ConcuStation.log";
 
 Constantes::Constantes() {
 

@@ -24,6 +24,7 @@ public:
 	static const std::string pathEmpleado;
 	static const std::string pathJefeEstacion;
 	static const std::string pathConsultarCaja;
+	static const std::string pathLectorComandos;
 
 	//Ruta archivo fifo - Canal a JefeEmpleados
 	static const std::string ARCHIVO_FIFO;

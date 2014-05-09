@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include "Estacion.h"
+#include "GeneradorAutos.h"
 #include "Common/Log.h"
 
 int main(){

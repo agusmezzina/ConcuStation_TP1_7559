@@ -19,6 +19,8 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 }
 
 void Estacion::iniciar(){
+	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
+
 	caja = new Caja(Constantes::CAJA, 0, 1);
 	caja->setDinero(0);
 
@@ -36,6 +38,14 @@ void Estacion::iniciar(){
 	//controlEmpleados->setEmpleadosLibres(cantEmpleados);
 
 	semSurtidores = new Semaforo(Constantes::SURTIDOR,cantSurtidores,cantSurtidores);
+}
+
+void Estacion::lanzarLectorComandos(){
+	std::stringstream ss;
+	ss << getpid();
+	std::string pid = ss.str();
+	char* const argv[] = { const_cast<char*>(Constantes::pathLectorComandos.c_str()), const_cast<char*>(pid.c_str()), (char*) 0 };
+	ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
 }
 
 void Estacion::lanzarJefeEstacion(){
