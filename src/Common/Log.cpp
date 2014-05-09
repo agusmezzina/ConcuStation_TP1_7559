@@ -2,23 +2,21 @@
 #include "LockSem.h"
 #include <unistd.h>
 #include <string>
+#include <sstream>
 #include <ctime>
 using std::string;
 
-Log::Log(const string& file, int initValSem): fileName(file),sem(file,0,initValSem){
-	this->file.open(file.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
-}
-
-Log::Log(const string& file): fileName(file),sem(file,0){
-	this->file.open(file.c_str(), std::fstream::in | std::fstream::out | std::fstream::app);
-}
-
-void Log::eliminarSemaforo(){
-    sem.eliminar();
+Log::Log(const string& file){
+	fd = open (file.c_str(),O_CREAT|O_WRONLY,0777);
+	lock.setFd(fd);
 }
 
 Log::~Log(){
-    this->file.close();
+    close(fd);
+}
+
+void Log::setProceso(const string& proc){
+    procType = proc;
 }
 
 const std::string getTime(){
@@ -31,7 +29,12 @@ const std::string getTime(){
 }
 
 void Log::loggear(const string& mensaje){
-    LockSem l(sem);
-    file << getTime() << " - " << getpid() << " - ";
-    file << mensaje << std::endl;
+    lock.tomarLock();
+    std::stringstream ss;
+    ss << getTime() << " - " << procType <<" - " << getpid() << " - ";
+    ss << mensaje << std::endl;
+    std::string s = ss.str();
+    lseek(fd,0,SEEK_END);
+    write(fd,s.c_str(),s.length());
+    lock.liberarLock();
 }

@@ -6,9 +6,12 @@
  */
 
 #include "JefeEstacion.h"
+#include <sstream>
 
-JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados) {
+JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados),
+        log(Constantes::LOG){
 	canal = NULL;
+	log.setProceso("JEFE ESTACION");
 }
 
 const int JefeEstacion::BUFFSIZE;
@@ -37,17 +40,17 @@ int JefeEstacion::run(){
 	iniciar();
 
 	canal->abrir();
-
-	std::fstream file;
-	file.open("logJefe",std::fstream::out);
-	file << "[JEFE] Mi pid es:" << getpid() << std::endl;
+    std::stringstream ss;
+    ss <<"Mi pid es:";
+    ss << getpid();
+	log.loggear(ss.str());
 	char buffer[BUFFSIZE];
 	bool salir = false;
 	while(!salir){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
-		file << "[JEFE] Leí el mensaje " << mensaje << std::endl;
+		log.loggear("Leí el mensaje " + mensaje);
 		if(mensaje == "q")
 			salir = true;
 		else
@@ -56,13 +59,12 @@ int JefeEstacion::run(){
 			//sleep(5);
 			bool libre = asignarAEmpleado(a);
 			if(!libre)
-				file << "[JEFE] Descarté " << mensaje << std::endl;
+				log.loggear("Descarté " + mensaje);
 		}
 	}
 
-	file << "[JEFE] Final" << std::endl;
+	log.loggear("Final");
 	canal->cerrar();
-	file.close();
 	return 0;
 }
 

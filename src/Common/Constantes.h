@@ -27,6 +27,7 @@ public:
 
 	//Ruta archivo fifo - Canal a JefeEmpleados
 	static const std::string ARCHIVO_FIFO;
+	static const std::string LOG;
 	virtual ~Constantes();
 };
 

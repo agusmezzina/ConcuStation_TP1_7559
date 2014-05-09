@@ -6,14 +6,16 @@
  */
 
 #include "Estacion.h"
+#include "Common/Log.h"
 
 Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
-		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores){
-
+		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores),
+            log(Constantes::LOG){
 	canal = NULL;
 	caja = NULL;
 	controlEmpleados = NULL;
 	semSurtidores = NULL;
+	log.setProceso("INIT");
 }
 
 void Estacion::iniciar(){
@@ -63,9 +65,6 @@ int Estacion::run(){
 
 	iniciar();
 
-	std::fstream file;
-	file.open("logPrincipal",std::fstream::out);
-
 	lanzarJefeEstacion();
 	lanzarEmpleados();
 
@@ -87,26 +86,21 @@ int Estacion::run(){
 		//Limito cadena de entrada para evitar desbordamientos en el canal.
 		patente = patente.substr(0, 6);
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
-		file << "[Init] Escribí la patente " << patente << std::endl;
-		file.flush();
+		log.loggear("Escribí la patente " + patente);
 	}
 	sleep(5);
 	std::string salir = "q";
 	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
-	file << "[Init] Escribí la patente " << salir << std::endl;
-	file.flush();
-	//}
+	log.loggear("Escribí la patente " + salir);
 
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 9);
 	}
 
 	ProcessManager::wait();
-	file << "[Init] Final" << std::endl;
-	file.flush();
+	log.loggear("Final");
 	canal->cerrar();
 	canal->eliminar();
-	file.close();
 	return 0;
 }
 

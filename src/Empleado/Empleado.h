@@ -14,6 +14,7 @@
 #include "../Common/Surtidor.h"
 #include "../Common/ControlEmpleados.h"
 #include "../Common/TransferenciaEmpleado.h"
+#include "../Common/Log.h"
 #include <vector>
 #include <iostream>
 #include <fstream>
@@ -22,6 +23,8 @@ class Empleado {
 private:
 	int id;
 	int cantidadSurtidores;
+
+    Log log;
 
 	std::vector<Surtidor*> surtidores;
 	Caja* caja;

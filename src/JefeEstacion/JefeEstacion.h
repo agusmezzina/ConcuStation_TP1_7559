@@ -16,14 +16,17 @@
 #include "../Common/Constantes.h"
 #include "../Common/Auto.h"
 #include "../Common/TransferenciaEmpleado.h"
+#include "../Common/Log.h"
 
 class JefeEstacion {
 private:
 	static const int BUFFSIZE = 50;
 	int cantidadEmpleados;
+
+	Log log;
+
 	FifoLectura* canal;
 	std::vector<TransferenciaEmpleado*> transferencias;
-
 	void iniciar();
 	//Devuelve false si no encontró empleado libre
 	bool asignarAEmpleado(const Auto& a);

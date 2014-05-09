@@ -6,11 +6,17 @@
  */
 
 #include "Empleado.h"
-//#include <unistd.h>
+#include <sstream>
+#include <unistd.h>
 
-Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantSurtidores) {
+Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantSurtidores),
+            log(Constantes::LOG){
 	caja = NULL;
 	transferencia = NULL;
+	std::stringstream ss;
+	ss << "EMPLEADO ";
+	ss << id;
+	log.setProceso(ss.str());
 }
 
 void Empleado::iniciar(){
@@ -23,19 +29,19 @@ void Empleado::iniciar(){
 }
 
 int Empleado::run(){
-	std::fstream file;
-	file.open("logEmpleados",std::fstream::out | std::fstream::app);
-	file << "[EMPLEADO" << id << "]Mi pid es:" << getpid() << std::endl;
+    std::stringstream ss;
+    ss <<"Mi pid es:";
+    ss << getpid();
+	log.loggear(ss.str());
 	iniciar();
-	file << "[EMPLEADO" << id << "] Inicialice recursos" << std::endl;
+	log.loggear("Inicialice recursos");
 	for(int i = 0; i < 2; i++){
-		file << "[EMPLEADO" << id << "] Quiero leer" << std::endl;
+		log.loggear("Quiero leer");
 		Auto a = transferencia->atenderAuto();
-		file << "[EMPLEADO" << id << "] Atendí auto " << a.getPatente() << std::endl;
+		log.loggear("Atendí auto " + a.getPatente());
 		transferencia->terminarAtencion();
 	}
-	file << "[EMPLEADO" << id << "] Termine!"<< std::endl;
-	file.close();
+	log.loggear("Termine!");
 	return 0;
 }
 

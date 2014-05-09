@@ -8,17 +8,16 @@
 
 #include <iostream>
 #include "Estacion.h"
+#include "Common/Log.h"
 
 int main(){
 	int cantEmpleados;
 	int cantSurtidores;
-
 	std::cout << "Bienvenido a la ConcuStation" << std::endl;
 	std::cout << "Ingrese el nro de empleados" << std::endl;
 	std::cin >> cantEmpleados;
 	std::cout << "Ingrese el nro de surtidores" << std::endl;
 	std::cin >> cantSurtidores;
-
 	Estacion estacion(cantEmpleados,cantSurtidores);
 	estacion.run();
 }

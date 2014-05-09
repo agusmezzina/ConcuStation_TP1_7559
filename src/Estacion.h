@@ -16,6 +16,7 @@
 #include "Common/Surtidor.h"
 #include "Common/ControlEmpleados.h"
 #include "Common/TransferenciaEmpleado.h"
+#include "Common/Log.h"
 #include <vector>
 #include <sstream>
 #include <iostream>
@@ -26,6 +27,8 @@ class Estacion {
 private:
 	int cantEmpleados;
 	int cantSurtidores;
+
+    Log log;
 
 	Caja* caja;
 	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
