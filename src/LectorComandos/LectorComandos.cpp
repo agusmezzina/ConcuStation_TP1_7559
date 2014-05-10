@@ -11,10 +11,9 @@ LectorComandos::LectorComandos(){
 
 }
 
-void LectorComandos::notificarConsultaCaja(){
-	if(kill(getppid(), SIGINT) < 0){
-		//Loguear error
-	}
+void LectorComandos::consultaCaja(){
+	char* const argv[] = { const_cast<char*>(Constantes::pathConsultarCaja.c_str()), (char*) 0 };
+	ProcessManager::run(Constantes::pathConsultarCaja.c_str(), argv);
 }
 void LectorComandos::notificarFin(){
 	if(kill(getppid(), SIGTERM) < 0){
@@ -30,7 +29,7 @@ int LectorComandos::run(){
 		if(entrada == "q")
 			salir = true;
 		if(entrada == "c")
-			notificarConsultaCaja();
+			consultaCaja();
 			//std::cout << "c!" << std::endl;
 	}
 	notificarFin();

@@ -20,7 +20,7 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 
 void Estacion::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
-	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigquit_handler );
+	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
 
 	caja = new Caja(Constantes::CAJA, 0, 1);
 	caja->setDinero(0);
@@ -91,7 +91,7 @@ int Estacion::run(){
 	//		salir = true;
 	//for(int i = 0; i < 300; i++){
 	//while(sigint_handler.getLaunchProcess() == 0){
-	while(sigquit_handler.getGracefulQuit() == 0){
+	while(sigterm_handler.getGracefulQuit() == 0){
 		Auto a = rcg.next();
 		std::string patente = a.getPatente();
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );

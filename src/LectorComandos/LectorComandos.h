@@ -8,6 +8,8 @@
 #ifndef LECTORCOMANDOS_H_
 #define LECTORCOMANDOS_H_
 
+#include "../Common/ProcessManager.h"
+#include "../Common/Constantes.h"
 #include <iostream>
 #include <string>
 #include <unistd.h>
@@ -17,7 +19,7 @@ class LectorComandos {
 public:
 	LectorComandos();
 	int run();
-	void notificarConsultaCaja();
+	void consultaCaja();
 	void notificarFin();
 	virtual ~LectorComandos();
 };

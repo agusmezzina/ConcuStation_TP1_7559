@@ -6,14 +6,14 @@
  */
 
 #include <unistd.h>
-using namespace std;
 #include <iostream>
-#include <fstream>
+#include "ConsultarCaja.h"
+using namespace std;
 
 int main() {
-	cout << "Soy el consultar caja. Mi pid es:" << getpid() << endl;
-
-	return 0;
+	//cout << "Soy el consultar caja. Mi pid es:" << getpid() << endl;
+	ConsultarCaja cc;
+	return cc.run();
 }
 
 

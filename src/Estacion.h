@@ -35,7 +35,7 @@ private:
 
     Log log;
     SIGINT_Handler sigint_handler;
-    SIGTERM_Handler sigquit_handler;
+    SIGTERM_Handler sigterm_handler;
 	Caja* caja;
 	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
 	std::vector<Surtidor*> surtidores;
