@@ -32,11 +32,11 @@ int Empleado::run(){
     std::stringstream ss;
     ss <<"Mi pid es:";
     ss << getpid();
-	log.loggear(ss.str());
+	//log.loggear(ss.str());
 	iniciar();
-	log.loggear("Inicialice recursos");
-	for(int i = 0; i < 2; i++){
-		log.loggear("Quiero leer");
+	//log.loggear("Inicialice recursos");
+	while(1){
+		//log.loggear("Quiero leer");
 		Auto a = transferencia->atenderAuto();
 		log.loggear("Atendí auto " + a.getPatente());
 		transferencia->terminarAtencion();

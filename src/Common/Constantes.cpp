@@ -11,8 +11,8 @@ const std::string Constantes::SURTIDOR = "./surtidor";
 const std::string Constantes::TRANSFERENCIA = "./transferencia";
 const std::string Constantes::CAJA = "./caja";
 
-const std::string Constantes::pathEmpleado = "bin/empleado";
-const std::string Constantes::pathJefeEstacion = "bin/jefeEstacion";
+const std::string Constantes::pathEmpleado = "bin/Empleado";
+const std::string Constantes::pathJefeEstacion = "bin/JefeEstacion";
 const std::string Constantes::pathConsultarCaja = "bin/ConsultarCaja";
 const std::string Constantes::pathLectorComandos = "bin/LectorComandos";
 

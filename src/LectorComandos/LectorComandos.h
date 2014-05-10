@@ -14,10 +14,8 @@
 #include <signal.h>
 
 class LectorComandos {
-	private:
-	pid_t procesoAsociado;
 public:
-	LectorComandos(pid_t);
+	LectorComandos();
 	int run();
 	void notificarConsultaCaja();
 	void notificarFin();

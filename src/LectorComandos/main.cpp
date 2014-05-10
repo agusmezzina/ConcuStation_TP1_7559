@@ -10,12 +10,7 @@
 
 int main(int argc, char *argv[]){
 
-	std::istringstream ss(argv[1]);
-	int pid;
-	if (!(ss >> pid))
-		std::cerr << "Invalid number " << argv[1] << std::endl;
-
-	LectorComandos lector(pid);
+	LectorComandos lector;
 	return lector.run();
 }
 

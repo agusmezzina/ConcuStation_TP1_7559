@@ -20,6 +20,7 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 
 void Estacion::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
+	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigquit_handler );
 
 	caja = new Caja(Constantes::CAJA, 0, 1);
 	caja->setDinero(0);
@@ -42,10 +43,11 @@ void Estacion::iniciar(){
 
 void Estacion::lanzarLectorComandos(){
 	std::stringstream ss;
-	ss << getpid();
+	int pid_n = getpid();
+	ss << pid_n;
 	std::string pid = ss.str();
-	char* const argv[] = { const_cast<char*>(Constantes::pathLectorComandos.c_str()), const_cast<char*>(pid.c_str()), (char*) 0 };
-	ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
+	char* const argv[] = { const_cast<char*>(Constantes::pathLectorComandos.c_str()), (char*) 0 };
+	ProcessManager::run(Constantes::pathLectorComandos.c_str(), argv);
 }
 
 void Estacion::lanzarJefeEstacion(){
@@ -75,34 +77,31 @@ int Estacion::run(){
 
 	iniciar();
 
+	lanzarLectorComandos();
 	lanzarJefeEstacion();
 	lanzarEmpleados();
 
+	GeneradorAutos rcg(10); //el parámetro está en milisegundos
 	//std::string patente;
-	//bool salir = false;
+	//bool fin = false;
 
-	//while(!salir) {
+	//while(!fin) {
 	//	std::cin >> patente;
 	//	if(patente == "q")
 	//		salir = true;
-	for(char i = 'a'; i < 'z'; i++){
-		//std::stringstream ss;
-		//ss << i;
-		char str[2];
-		str[0] = i;
-		str[1] = '\0';
-		std::string patente(str);
-		patente = "aa" + patente;
-		//Limito cadena de entrada para evitar desbordamientos en el canal.
-		patente = patente.substr(0, 6);
+	//for(int i = 0; i < 300; i++){
+	//while(sigint_handler.getLaunchProcess() == 0){
+	while(sigquit_handler.getGracefulQuit() == 0){
+		Auto a = rcg.next();
+		std::string patente = a.getPatente();
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
 		log.loggear("Escribí la patente " + patente);
 	}
-	sleep(5);
+	//sleep(5);
 	std::string salir = "q";
 	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
 	log.loggear("Escribí la patente " + salir);
-
+	std::cout << "Chau!" << std::endl;
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 9);
 	}
@@ -115,6 +114,8 @@ int Estacion::run(){
 }
 
 Estacion::~Estacion() {
+	SignalHandler::destruir();
+
 	canal->cerrar();
 	canal->eliminar();
 	delete(canal);

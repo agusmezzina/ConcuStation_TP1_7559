@@ -8,16 +8,19 @@
 #ifndef ESTACION_H_
 #define ESTACION_H_
 
+#include "GeneradorAutos.h"
 #include "Common/ProcessManager.h"
 #include "Common/Semaforo.h"
 #include "Common/FifoEscritura.h"
 #include "Common/Caja.h"
+#include "Common/Auto.h"
 #include "Common/Constantes.h"
 #include "Common/Surtidor.h"
 #include "Common/ControlEmpleados.h"
 #include "Common/TransferenciaEmpleado.h"
 #include "Common/Log.h"
 #include "Common/SIGINT_Handler.h"
+#include "Common/SIGTERM_Handler.h"
 #include "Common/SignalHandler.h"
 #include <vector>
 #include <sstream>
@@ -32,6 +35,7 @@ private:
 
     Log log;
     SIGINT_Handler sigint_handler;
+    SIGTERM_Handler sigquit_handler;
 	Caja* caja;
 	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
 	std::vector<Surtidor*> surtidores;

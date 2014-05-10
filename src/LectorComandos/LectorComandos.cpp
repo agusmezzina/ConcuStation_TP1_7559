@@ -7,16 +7,19 @@
 
 #include "LectorComandos.h"
 
-LectorComandos::LectorComandos(pid_t unProceso): procesoAsociado(unProceso) {
+LectorComandos::LectorComandos(){
+
 }
 
 void LectorComandos::notificarConsultaCaja(){
-	if(kill(procesoAsociado, SIGINT) < 0){
+	if(kill(getppid(), SIGINT) < 0){
 		//Loguear error
 	}
 }
 void LectorComandos::notificarFin(){
-
+	if(kill(getppid(), SIGTERM) < 0){
+		//Loguear error
+	}
 }
 
 int LectorComandos::run(){
@@ -28,6 +31,7 @@ int LectorComandos::run(){
 			salir = true;
 		if(entrada == "c")
 			notificarConsultaCaja();
+			//std::cout << "c!" << std::endl;
 	}
 	notificarFin();
 	return 0;

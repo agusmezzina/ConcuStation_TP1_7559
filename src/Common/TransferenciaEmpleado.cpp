@@ -29,38 +29,20 @@ void TransferenciaEmpleado::eliminarSemaforos(){
 }
 
 bool TransferenciaEmpleado::ocuparSiEstaLibre(const Auto& a){
-	std::fstream file;
-	file.open("logTransferencia",std::fstream::out | std::fstream::app);
-	file << "[PROCESO " << this->pidEmpleado << "] Inicio método" << std::endl;
-	file.flush();
 	LockSem l(semMemoria);
-	file << "[PROCESO " << this->pidEmpleado << "] Tomé memoria" << std::endl;
-	file.flush();
 	EmpleadoOcupado emp = mem.leer();
 	if(! emp.estaOcupado()){
-		file << "[PROCESO " << this->pidEmpleado << "] Libre!" << std::endl;
-		file.flush();
 		emp.ocupar(a);
 		mem.escribir(emp);
 		semProd.v();
-		file << "[PROCESO " << this->pidEmpleado << "] Hice signal" << std::endl;
-		file.flush();
-		file.close();
 		return true;
 	}
-	file << "[PROCESO " << this->pidEmpleado << "] Ocupado!" << std::endl;
 	return false;
 }
 
 Auto TransferenciaEmpleado::atenderAuto(){
 	std::fstream file;
-	file.open("logTransferencia",std::fstream::out | std::fstream::app);
-	file << "[PROCESO " << this->pidEmpleado << "] Hago wait para atender" << std::endl;
-	file.flush();
     semProd.p();
-    file << "[PROCESO " << this->pidEmpleado << "] Puedo atender" << std::endl;
-    file.flush();
-    file.close();
     LockSem l(semMemoria);
     EmpleadoOcupado emp = mem.leer();
     return emp.getAuto();
