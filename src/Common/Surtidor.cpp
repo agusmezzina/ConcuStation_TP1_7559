@@ -37,4 +37,8 @@ bool Surtidor::ocuparSiEstaLibre(int pid){
         return false;
 }
 
+void Surtidor::liberarSurtidor(){
+    LockSem l(sem);
+    mem.escribir(0);
+}
 

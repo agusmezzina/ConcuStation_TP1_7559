@@ -8,10 +8,10 @@ class Surtidor {
         Surtidor(const std::string& name, const char letra, const int id,
                 const int initValSem);
         Surtidor(const std::string& name, const char letra, const int id);
-		//Surtidor(const std::string& name, const char letra, const int id);
         ~Surtidor();
         void eliminarSemaforo();
         bool ocuparSiEstaLibre(pid_t pid);
+        void liberarSurtidor();
     private:
         std::string name;
         char letra;

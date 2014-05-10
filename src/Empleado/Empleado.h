@@ -27,6 +27,7 @@ private:
     Log log;
 
 	std::vector<Surtidor*> surtidores;
+	Semaforo* semSurtidores;
 	Caja* caja;
 	TransferenciaEmpleado* transferencia;
 

@@ -29,8 +29,9 @@ unsigned int Caja::consultarCaja(){
     return dinero.leer();
 }
 
-void Caja::depositar(unsigned int din){
+unsigned int Caja::depositar(unsigned int din){
     LockSem l(sem);
     unsigned int d = dinero.leer();
     dinero.escribir(d+din);
+    return d+din;
 }

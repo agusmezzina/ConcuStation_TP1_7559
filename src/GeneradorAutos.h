@@ -17,6 +17,7 @@
 class GeneradorAutos {
 private:
 	int lambda;
+	char patActual[4];
 public:
 	GeneradorAutos(int media);
 	Auto next();

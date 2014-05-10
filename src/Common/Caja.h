@@ -11,7 +11,7 @@ class Caja{
         ~Caja();
         void setDinero(unsigned int dinero);
         unsigned int consultarCaja();
-        void depositar(unsigned int dinero);
+        unsigned int depositar(unsigned int dinero);
         void eliminarSemaforo();
     private:
         MemoriaCompartida2<unsigned int> dinero;
