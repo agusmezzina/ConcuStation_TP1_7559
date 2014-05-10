@@ -74,5 +74,10 @@ int JefeEstacion::run(){
 
 JefeEstacion::~JefeEstacion() {
 	delete(canal);
+	//Libero las transferencias
+	for(char i=0;i<cantidadEmpleados;i++){
+		transferencias[i]->eliminarSemaforos();
+		delete transferencias[i];
+	}
 }
 
