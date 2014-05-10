@@ -6,6 +6,7 @@
  */
 
 #include "ConsultarCaja.h"
+#include <sstream>
 
 ConsultarCaja::ConsultarCaja(): log(Constantes::LOG) {
 	caja = new Caja(Constantes::CAJA,0);
@@ -14,10 +15,12 @@ ConsultarCaja::ConsultarCaja(): log(Constantes::LOG) {
 
 int ConsultarCaja::run(){
 	std::cout << "Entro" << std::endl;
-	std::string mensaje = "La recaudación de la caja es: " + caja->consultarCaja();
+	std::stringstream mensaje;
+	mensaje << "La recaudación de la caja es: ";
+	mensaje << caja->consultarCaja();
 	std::cout << "Salgo" << std::endl;
-	std::cout << mensaje << std::endl;
-	log.loggear(mensaje);
+	std::cout << mensaje.str() << std::endl;
+	log.loggear(mensaje.str());
 	return 0;
 }
 

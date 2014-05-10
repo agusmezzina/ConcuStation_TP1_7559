@@ -7,6 +7,7 @@
 
 #include "JefeEstacion.h"
 #include <sstream>
+#include <fstream>
 
 JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados),
         log(Constantes::LOG){
@@ -46,13 +47,19 @@ int JefeEstacion::run(){
 	log.loggear(ss.str());
 	char buffer[BUFFSIZE];
 	bool salir = false;
+
+	std::fstream file;
+	file.open("logJefe",std::fstream::out | std::ios_base::app );
+
 	while(!salir){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
 		std::stringstream ss;
-		ss << "Lei el mensaje" << mensaje;
+		ss << "Lei el mensaje" << mensaje << std::endl;
 		log.loggear(ss.str());
+		file << ss.str();
+		file.flush();
 		if(mensaje == "q")
 			salir = true;
 		else
@@ -62,8 +69,11 @@ int JefeEstacion::run(){
 			bool libre = asignarAEmpleado(a);
 			std::stringstream ss2;
             ss2 << "Descarté" << mensaje;
-			if(!libre)
+			if(!libre){
 				log.loggear(ss2.str());
+                file << ss2.str() << std::endl;
+                file.flush();
+            }
 		}
 	}
 
