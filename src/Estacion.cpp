@@ -103,10 +103,11 @@ int Estacion::run(){
 	log.loggear("Escribí la patente " + salir);
 	std::cout << "Chau!" << std::endl;
 	for(int i = 0; i < cantEmpleados; i++){
-		kill(empleados[i], 9);
+		kill(empleados[i], 15);
 	}
-
-	ProcessManager::wait();
+	for(int i = 0; i < 2; i++){
+		ProcessManager::wait();
+	}
 	log.loggear("Final");
 	canal->cerrar();
 	canal->eliminar();

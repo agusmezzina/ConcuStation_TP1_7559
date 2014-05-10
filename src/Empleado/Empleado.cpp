@@ -21,6 +21,8 @@ Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantS
 }
 
 void Empleado::iniciar(){
+	SignalHandler :: getInstance()->registrarHandler ( SIGTERM, this);
+
 	transferencia = new TransferenciaEmpleado(Constantes::TRANSFERENCIA,id,id);
 	caja = new Caja(Constantes::CAJA,0);
 
@@ -28,6 +30,12 @@ void Empleado::iniciar(){
 		surtidores.push_back(new Surtidor(Constantes::SURTIDOR,i,i));
 	}
 	semSurtidores = new Semaforo(Constantes::SURTIDOR,cantidadSurtidores);
+}
+
+int Empleado::handleSignal ( int signum ) {
+	assert ( signum == SIGTERM );
+	this->finalizar();
+	exit(0);
 }
 
 int Empleado::run(){
@@ -70,7 +78,7 @@ int Empleado::run(){
 	return 0;
 }
 
-Empleado::~Empleado() {
+void Empleado::finalizar(){
 	delete(caja);
 	delete(transferencia);
 
@@ -78,5 +86,9 @@ Empleado::~Empleado() {
 		delete surtidores[i];
 	}
 	delete semSurtidores;
+}
+
+Empleado::~Empleado() {
+	finalizar();
 }
 

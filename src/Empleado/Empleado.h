@@ -15,11 +15,17 @@
 #include "../Common/ControlEmpleados.h"
 #include "../Common/TransferenciaEmpleado.h"
 #include "../Common/Log.h"
+#include "../Common/EventHandler.h"
+#include "../Common/SignalHandler.h"
+
+#include <signal.h>
+#include <assert.h>
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 
-class Empleado {
+class Empleado: public EventHandler {
 private:
 	int id;
 	int cantidadSurtidores;
@@ -32,7 +38,9 @@ private:
 	TransferenciaEmpleado* transferencia;
 
 	void iniciar();
+	void finalizar();
 public:
+	virtual int handleSignal ( int signum );
 	Empleado(int, int);
 	int run();
 	virtual ~Empleado();
