@@ -50,7 +50,9 @@ int JefeEstacion::run(){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
-		log.loggear("Leí el mensaje " + mensaje);
+		std::stringstream ss;
+		ss << "Lei el mensaje" << mensaje;
+		log.loggear(ss.str());
 		if(mensaje == "q")
 			salir = true;
 		else
@@ -58,8 +60,10 @@ int JefeEstacion::run(){
 			Auto a(mensaje);
 			//sleep(5);
 			bool libre = asignarAEmpleado(a);
+			std::stringstream ss2;
+            ss2 << "Descarté" << mensaje;
 			if(!libre)
-				log.loggear("Descarté " + mensaje);
+				log.loggear(ss2.str());
 		}
 	}
 
