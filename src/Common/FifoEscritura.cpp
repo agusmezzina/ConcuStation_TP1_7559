@@ -15,10 +15,10 @@ void FifoEscritura::abrir() {
 
 ssize_t FifoEscritura::escribir(const void* buffer,const ssize_t buffsize) const {
 	int escrito = write ( fd,buffer,buffsize );
-	if(escrito==-1){
-        throw "Error en write";
-    }else if( escrito != buffsize){
-        throw "Cantidad escrita menor a la indicada";
-	}
+	//if(escrito==-1){
+    //    throw "Error en write";
+    //}else if( escrito != buffsize){
+    //    throw "Cantidad escrita menor a la indicada";
+	//}
 	return escrito;
 }

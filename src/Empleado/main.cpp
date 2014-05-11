@@ -22,5 +22,10 @@ int main(int argc, char *argv[]) {
 			std::cerr << "Invalid number " << argv[2] << std::endl;
 
 	Empleado empleado(idEmpleado, cantSurtidores);
+	try{
 	return empleado.run();
+	}
+	catch(const char* ex){
+			std::cout << ex << std::endl;
+		}
 }

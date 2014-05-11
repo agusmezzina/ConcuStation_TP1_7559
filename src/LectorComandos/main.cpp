@@ -11,7 +11,12 @@
 int main(int argc, char *argv[]){
 
 	LectorComandos lector;
+	try{
 	return lector.run();
+	}
+	catch(const char* ex){
+			std::cout << ex << std::endl;
+		}
 }
 
 

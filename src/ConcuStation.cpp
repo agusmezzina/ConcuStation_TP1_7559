@@ -20,5 +20,10 @@ int main(){
 	std::cout << "Ingrese el nro de surtidores" << std::endl;
 	std::cin >> cantSurtidores;
 	Estacion estacion(cantEmpleados,cantSurtidores);
+	try{
 	estacion.run();
+	}
+	catch(const char* ex){
+			std::cout << ex << std::endl;
+		}
 }

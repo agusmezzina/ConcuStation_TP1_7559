@@ -105,7 +105,7 @@ int Estacion::run(){
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 15);
 	}
-	for(int i = 0; i < 2; i++){
+	for(int i = 0; i < 2 + cantEmpleados; i++){
 		ProcessManager::wait();
 	}
 	log.loggear("Final");
