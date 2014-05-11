@@ -14,11 +14,9 @@ ConsultarCaja::ConsultarCaja(): log(Constantes::LOG) {
 }
 
 int ConsultarCaja::run(){
-	std::cout << "Entro" << std::endl;
 	std::stringstream mensaje;
 	mensaje << "La recaudación de la caja es: ";
 	mensaje << caja->consultarCaja();
-	std::cout << "Salgo" << std::endl;
 	std::cout << mensaje.str() << std::endl;
 	log.loggear(mensaje.str());
 	return 0;
