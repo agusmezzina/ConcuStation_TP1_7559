@@ -15,10 +15,8 @@ void FifoLectura::abrir() {
 
 ssize_t FifoLectura::leer(void* buffer,const ssize_t buffsize) const {
 	int leido = read ( fd,buffer,buffsize );
-	//if(leido == -1){
-    //    throw "No se pudo leer del fifo";
-	//}else if(leido != buffsize){
-    //    throw "Se leyo menos de lo indicado";
-	//}
+	if(leido == -1){
+        throw "No se pudo leer del fifo";
+	}
 	return leido;
 }

@@ -48,9 +48,6 @@ int JefeEstacion::run(){
 	char buffer[BUFFSIZE];
 	bool salir = false;
 
-	std::fstream file;
-	file.open("logJefe",std::fstream::out | std::ios_base::app );
-
 	while(!salir){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
@@ -58,21 +55,16 @@ int JefeEstacion::run(){
 		std::stringstream ss;
 		ss << "Lei el mensaje" << mensaje << std::endl;
 		log.loggear(ss.str());
-		file << ss.str();
-		file.flush();
 		if(mensaje == "q")
 			salir = true;
 		else
 		{
 			Auto a(mensaje);
-			//sleep(5);
 			bool libre = asignarAEmpleado(a);
 			std::stringstream ss2;
             ss2 << "Descarté" << mensaje;
 			if(!libre){
 				log.loggear(ss2.str());
-                file << ss2.str() << std::endl;
-                file.flush();
             }
 		}
 	}

@@ -6,6 +6,8 @@
 
 #include "EventHandler.h"
 
+#include <fstream>
+
 class SIGTERM_Handler : public EventHandler {
 
 	private:

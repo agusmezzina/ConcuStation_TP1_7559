@@ -35,9 +35,6 @@ void Estacion::iniciar(){
 		transferencias.push_back(new TransferenciaEmpleado(Constantes::TRANSFERENCIA,i,i,1,0));
 	}
 
-    //controlEmpleados = new ControlEmpleados(Constantes::TRANSFERENCIA,cantEmpleados,1);
-	//controlEmpleados->setEmpleadosLibres(cantEmpleados);
-
 	semSurtidores = new Semaforo(Constantes::SURTIDOR,cantSurtidores,cantSurtidores);
 }
 
@@ -82,22 +79,13 @@ int Estacion::run(){
 	lanzarEmpleados();
 
 	GeneradorAutos rcg(10); //el parámetro está en milisegundos
-	//std::string patente;
-	//bool fin = false;
 
-	//while(!fin) {
-	//	std::cin >> patente;
-	//	if(patente == "q")
-	//		salir = true;
-	//for(int i = 0; i < 300; i++){
-	//while(sigint_handler.getLaunchProcess() == 0){
 	while(sigterm_handler.getGracefulQuit() == 0){
 		Auto a = rcg.next();
 		std::string patente = a.getPatente();
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
 		log.loggear("Escribí la patente " + patente);
 	}
-	//sleep(5);
 	std::string salir = "q";
 	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
 	log.loggear("Escribí la patente " + salir);
@@ -109,19 +97,24 @@ int Estacion::run(){
 		ProcessManager::wait();
 	}
 	log.loggear("Final");
-	canal->cerrar();
-	canal->eliminar();
 	return 0;
 }
 
 Estacion::~Estacion() {
 	SignalHandler::destruir();
 
+    //Libero las transferencias
+	for(char i=0;i<cantEmpleados;i++){
+		transferencias[i]->eliminarSemaforos();
+		delete transferencias[i];
+	}
+
 	canal->cerrar();
 	canal->eliminar();
 	delete(canal);
+    caja->eliminarSemaforo();
 	delete(caja);
-	delete(controlEmpleados);
+	//delete(controlEmpleados);
 
 	//Libero surtidores
 	for(char i=0;i<cantSurtidores;i++){
@@ -129,16 +122,12 @@ Estacion::~Estacion() {
 		delete surtidores[i];
 	}
 
-	//Libero las transferencias
-	for(char i=0;i<cantEmpleados;i++){
-		transferencias[i]->eliminarSemaforos();
-		delete transferencias[i];
-	}
+
 	//controlEmpleados->eliminarSemaforo();
 
 	semSurtidores->eliminar();
 	delete(semSurtidores);
 	//Libero la caja
-	caja->eliminarSemaforo();
+
 }
 

@@ -3,18 +3,18 @@
 Semaforo :: Semaforo ( const std::string& nombre,const char letra, const int valorInicial ):valorInicial(valorInicial) {
 	key_t clave = ftok ( nombre.c_str(),letra );
 	this->id = semget ( clave,1,0666 | IPC_CREAT );
-    //if(id==-1){
-    //    throw "Fallo SEMGET";
-    //}
+    if(id==-1){
+      throw "Fallo SEMGET";
+    }
 	this->inicializar ();
 }
 
 Semaforo :: Semaforo ( const std::string& nombre,const char letra ) {
 	key_t clave = ftok ( nombre.c_str(),letra );
 	this->id = semget ( clave,1,0666 | IPC_CREAT );
-    //if(id==-1){
-    //    throw "Fallo SEMGET";
-    //}
+    if(id==-1){
+       throw "Fallo SEMGET";
+    }
 }
 
 Semaforo::~Semaforo() {
@@ -31,9 +31,9 @@ int Semaforo :: inicializar () const {
 	semnum init;
 	init.val = this->valorInicial;
 	int resultado = semctl ( this->id,0,SETVAL,init );
-	//if(resultado ==-1){
-    //    throw "Fallo Inicializacion del Semaforo";
-	//}
+	if(resultado ==-1){
+        throw "Fallo Inicializacion del Semaforo";
+	}
 	return resultado;
 }
 
@@ -46,9 +46,9 @@ int Semaforo :: p () const {
 	operacion.sem_flg = SEM_UNDO;
 
 	int resultado = semop ( this->id,&operacion,1 );
-	//if(resultado==-1){
-    //    throw "Fallo el P";
-	//}
+	if(resultado==-1){
+        throw "Fallo el P";
+	}
 	return resultado;
 }
 
@@ -61,15 +61,12 @@ int Semaforo :: v () const {
 	operacion.sem_flg = SEM_UNDO;
 
 	int resultado = semop ( this->id,&operacion,1 );
-	//if (resultado==-1){
-    //    throw "Fallo el V";
-	//}
+	if (resultado==-1){
+       throw "Fallo el V";
+	}
 	return resultado;
 }
 
 void Semaforo :: eliminar () const {
-	int resultado =semctl ( this->id,0,IPC_RMID );
-	//if(resultado==-1){
-    //    throw "Fallo la eliminacion del semaforo";
-	//}
+	semctl ( this->id,0,IPC_RMID );
 }

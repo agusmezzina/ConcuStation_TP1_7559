@@ -61,7 +61,7 @@ int Empleado::run(){
                 std::stringstream ss3;
                 ss3 << "Cargo " << n << " litros";
                 log.loggear(ss3.str());
-                usleep(n);
+                usleep(100*n);
                 std::stringstream ss2;
                 ss2 << "Deposito en la caja. El valor actual es: ";
                 ss2 << caja->depositar(10*n);//Cambiar por un random
@@ -79,6 +79,7 @@ int Empleado::run(){
 }
 
 void Empleado::finalizar(){
+	try{
 	delete(caja);
 	delete(transferencia);
 
@@ -86,6 +87,9 @@ void Empleado::finalizar(){
 		delete surtidores[i];
 	}
 	delete semSurtidores;
+	}catch(char const* s){
+        std::cout << s;
+	}
 }
 
 Empleado::~Empleado() {
