@@ -18,10 +18,11 @@
 \section{Procesos}
 La aplicación se divide en los siguientes procesos:
 \begin{enumerate}
-	\item Init: llena la cola de autos entrantes.
+	\item Init: genera un auto cada cierta cantidad aleatoria de tiempo transcurrido y los envía al jefe de estación para su procesamiento.
 	\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha.
 	\item Empleado: asigna autos a surtidores libres. Si no hay surtidores libres, espera a que se libere alguno. Realiza el servicio. Cobra y guarda la recaudación en la caja.
 	\item Consulta caja registradora: consulta asincrónica sobre el valor de la recaudación en caja.
+	\item Lector de comandos: escucha comandos entrantes por entrada estándar y toma las medidas correspondientes para responder a ellos.
 \end{enumerate}
 
 \section{Comunicación entre procesos}
@@ -29,12 +30,12 @@ En el siguiente diagrama, se muestra el esquema de comunicación entre los proce
 \\[1\baselineskip]
 \includegraphics[width=\textwidth]{overview}
 
-\section{Problemas conocidos de concurrencia}
+\section{Problemas típicos de concurrencia}
 \begin{enumerate}
 	\item Init - Jefe de estación: Productor - Consumidor. El proceso base hace las veces de Productor, ingresando autos nuevos a un buffer compartido donde posteriormente el Jefe de Estación, en este caso Consumidor, los retira según su orden de llegada y los procesa.
-	\item Jefe de estación - Empleado(s): Sección Crítica y Productor - Consumidor. El problema de la Sección Crítica se da cuando los procesos se comuniquen su respectiva disponibilidad para poder trabajar. El problema del Productor - Consumidor aparece con la espera de los Empleados de un Auto de parte del Jefe para que el mismo pueda ser atendido.
-	\item Empleado - Empleado: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda a los recursos Surtidores.
-	\item Empleado(s) - Consultar Caja: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda al recurso Caja.
+	\item Jefe de estación - Empleado(s): Productor - Consumidor. Se presenta un caso similar al anterior, con la variante de que el Productor (Jefe de estación) debe determinar a cuál de los Consumidores (Empleados) enviar el recurso generado.
+	\item Empleado - Empleado: Sección Crítica. Los procesos deben excluirse mutuamente al ejecutar código que acceda a los recursos Surtidores, ya que el mismo Surtidor no puede ser utilizado por dos Empleados al mismo tiempo.
+	\item Empleado(s) - Consultar Caja: Sección Crítica. Los procesos deben excluirse mutuamente al acceder a la Caja, ya sea para leer como para escribir.
 \end{enumerate}
 \section{Mecanismos de concurrencia a utilizar}
 En el siguiente diagrama se muestran los mecanismos de concurrencia utilizados para lograr la comunicación y sincronización de procesos:
@@ -43,11 +44,17 @@ En el siguiente diagrama se muestran los mecanismos de concurrencia utilizados p
 \subsection{Init - Jefe de estación}
 El buffer de autos se implementó utilizando un named pipe (o FIFO), de manera que el proceso inicial ingresa los autos al canal a medida que los va produciendo y el jefe de estación los toma en orden para procesarlos. Este mecanismo de concurrencia provee no sólo comunicación entre ambos procesos, sino que también sincronismo.
 \subsection{Jefe de estación - Empleado(s)}
-Los procesos tienen un espacio de memoria compartida donde se guarda el dato de cuántos empleados libres hay en la estación. Si este número es igual a 0, el jefe de estación descarta el auto que está atendiendo. Si no lo es, decrementa en valor en 1 y asigna el auto a uno de los empleados libres. Cuando el empleado termina de trabajar con el auto y se libera, aumenta el valor de la variable. Esta memoria compartida está protegida con un semáforo.
-Además cada Empleado mantiene con el Jefe de Estación otro espacio de memoria compartida, cada uno también protegido con un semáforo, donde se intercambia información sobre el estado del Empleado y se guarda el auto que debe ser atendido.
+Cada Empleado mantiene con el Jefe de Estación un espacio de intercambio en memoria compartida, donde se guarda información sobre el estado del Empleado (libre u ocupado) y el auto que debe ser atendido. Cada uno de estos espacios de intercambio está protegido con un semáforo binario para lograr exclusión mutua entre el Jefe y el Empleado correspondiente en el acceso al mismo, ya sea para lectura o para escritura.
 \subsection{Empleado - Empleado}
 Los Surtidores están guardados en bloques de memoria compartida accesibles a todos los Empleados. Dicho bloque está protegido por un semáforo general que permite el acceso al área de memoria cuando haya algún surtidor libre. Cada espacio de memoria donde se encuentra un surtidor está, a su vez, protegido por un semáforo binario.
 \subsection{Empleado(s) - Consultar Caja}
-Estos procesos acceden a un espacio de memoria compartida donde está la Caja. Dicho espacio está protegido por un semáforo para resolver el problema de sección crítica que se da cuando algún proceso quiera ingresar o extraer dinero de ella.
+Estos procesos acceden a un espacio de memoria compartida donde está la Caja. Se excluyen mutuamente mediante un semáforo binario para coordinar el acceso a la misma.
+
+\section{Otras consideraciones}
+\subsection{Inicio y finalización}
+Al iniciar la simulación, el proceso Init crea todas las memorias compartidas y semáforos (estos últimos también los inicializa) necesarios para el funcionamiento del sistema, así como también el FIFO que sirve como canal de comunicación con el Jefe de empleados. Luego lanza los procesos Jefe de Empleados, Lector de Comandos y todos los Empleados. El proceso Consultar Caja es lanzado por el Lector de Comandos cada vez que el usuario ingresa el comando ``c''. Este proceso finaliza luego de imprimir el valor de la Caja en pantalla.
+Cuando el Lector de Comandos recibe el comando ``q'', el sistema debe finalizar. Para esto, se envía la señal SIGTERM al proceso Init y este, a su vez, envía una señal similar a todos los Empleados y un mensaje especial al Jefe de Estación a través del FIFO. Estos procesos manejarán los mensajes eliminando todos sus recursos y finalizando correctamente. El proceso Init espera la finalización de los demás procesos y luego procede a elminar todos los canales de comunicación creados inicialmente, para luego finalizar.
+\subsection{Log}
+Todos los procesos de la simulación informan las acciones que realizan mediante la escritura a un único archivo denominado ``ConcuStation.log''. El mismo puede utilizarse para verificar el funcionamiento del sistema y el orden en el que se realizan las actividades. Para coordinar el acceso al archivo, se utilizan locks de escritura.
 
 \end{document}
