@@ -48,6 +48,7 @@ private:
 	void lanzarLectorComandos();
 	void lanzarJefeEstacion();
 	void lanzarEmpleados();
+	void crearArchivos();
 
 public:
 	Estacion(int cantidadEmpleados, int cantidadSurtidores);

@@ -21,7 +21,7 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 void Estacion::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
-
+	crearArchivos();
 	caja = new Caja(Constantes::CAJA, 0, 1);
 	caja->setDinero(0);
 
@@ -36,6 +36,20 @@ void Estacion::iniciar(){
 	}
 
 	semSurtidores = new Semaforo(Constantes::SURTIDOR,cantSurtidores,cantSurtidores);
+}
+
+void Estacion::crearArchivos(){
+	std::ofstream surtidor;
+	surtidor.open(Constantes::SURTIDOR.c_str());
+	surtidor.close();
+
+	std::ofstream caja;
+	surtidor.open(Constantes::CAJA.c_str());
+	surtidor.close();
+
+	std::ofstream transferencia;
+	surtidor.open(Constantes::TRANSFERENCIA.c_str());
+	surtidor.close();
 }
 
 void Estacion::lanzarLectorComandos(){
@@ -78,7 +92,7 @@ int Estacion::run(){
 	lanzarJefeEstacion();
 	lanzarEmpleados();
 
-	GeneradorAutos rcg(10); //el parámetro está en milisegundos
+	GeneradorAutos rcg(1000); //el parámetro está en milisegundos
 
 	while(sigterm_handler.getGracefulQuit() == 0){
 		Auto a = rcg.next();

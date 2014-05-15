@@ -61,7 +61,7 @@ int Empleado::run(){
                 std::stringstream ss3;
                 ss3 << "Cargo " << n << " litros";
                 log.loggear(ss3.str());
-                usleep(100*n);
+                usleep(100000*n); //100*n
                 std::stringstream ss2;
                 ss2 << "Deposito en la caja. El valor actual es: ";
                 ss2 << caja->depositar(10*n);//Cambiar por un random

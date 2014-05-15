@@ -13,12 +13,14 @@ ProcessManager::ProcessManager() {
 pid_t ProcessManager::run(const char* path, char* const argv[]){
 	pid_t id = fork ();
         if(id<0){
-            std::cout << "BARDIO EL FORK";
-            throw "JOJO";
+        	std::string mensaje = "No se pudo iniciar el proceso: " + std::string(strerror(errno));
+        	std::cout <<  mensaje << std::endl;
+        	return id;
         }else if ( id == 0 ) {
 			execv(path, argv);
-			std::cout << "Bardio el exec";
-            exit(1);
+			std::string mensaje = "No se pudo cargar el ejecutable" + std::string(path) + ": " + std::string(strerror(errno));
+			std::cout <<  mensaje << std::endl;
+			exit(1);
 		} else {
 			return id;
 		}

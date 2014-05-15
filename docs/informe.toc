@@ -1,0 +1,18 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{2}
+\contentsline {subsection}{\numberline {1.1}Descripci\IeC {\'o}n del problema}{2}
+\contentsline {subsection}{\numberline {1.2}Modo de uso}{2}
+\contentsline {section}{\numberline {2}Procesos}{2}
+\contentsline {section}{\numberline {3}Comunicaci\IeC {\'o}n entre procesos}{3}
+\contentsline {section}{\numberline {4}Problemas t\IeC {\'\i }picos de concurrencia}{3}
+\contentsline {section}{\numberline {5}Mecanismos de concurrencia a utilizar}{3}
+\contentsline {subsection}{\numberline {5.1}Init - Jefe de estaci\IeC {\'o}n}{4}
+\contentsline {subsection}{\numberline {5.2}Jefe de estaci\IeC {\'o}n - Empleado(s)}{4}
+\contentsline {subsection}{\numberline {5.3}Empleado - Empleado}{4}
+\contentsline {subsection}{\numberline {5.4}Empleado(s) - Consultar Caja}{5}
+\contentsline {section}{\numberline {6}Otras consideraciones}{5}
+\contentsline {subsection}{\numberline {6.1}Inicio y finalizaci\IeC {\'o}n}{5}
+\contentsline {subsection}{\numberline {6.2}Log}{5}
+\contentsline {section}{\numberline {7}Diagramas}{5}
+\contentsline {subsection}{\numberline {7.1}Diagrama de clases}{5}
+\contentsline {subsection}{\numberline {7.2}Diagrama de transici\IeC {\'o}n de estados: Jefe de Estaci\IeC {\'o}n}{8}
