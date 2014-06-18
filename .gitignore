@@ -5,8 +5,9 @@ src/*/bin
 src/bin
 src/obj
 /docs/*.aux
-/docs/*.log
+*.log
 *~
 *.cbp
 *.layout
 language.settings.xml
+

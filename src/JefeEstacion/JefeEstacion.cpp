@@ -48,25 +48,21 @@ int JefeEstacion::run(){
 	char buffer[BUFFSIZE];
 	bool salir = false;
 
-	while(!salir){
+	while(this->sigterm_handler.getGracefulQuit() == 0){
 		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
 		std::stringstream ss;
 		ss << "Lei el mensaje" << mensaje << std::endl;
 		log.loggear(ss.str());
-		if(mensaje == "q")
-			salir = true;
-		else
-		{
-			Auto a(mensaje);
-			bool libre = asignarAEmpleado(a);
-			std::stringstream ss2;
-            ss2 << "Descarté" << mensaje;
-			if(!libre){
-				log.loggear(ss2.str());
-            }
-		}
+
+		Auto a(mensaje);
+		bool libre = asignarAEmpleado(a);
+		std::stringstream ss2;
+		ss2 << "Descarté" << mensaje;
+		if(!libre)
+			log.loggear(ss2.str());
+
 	}
 
 	log.loggear("Final");

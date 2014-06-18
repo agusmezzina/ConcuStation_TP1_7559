@@ -43,6 +43,7 @@ private:
 	ControlEmpleados* controlEmpleados;
 	Semaforo* semSurtidores;
 	std::vector<pid_t> empleados;
+	pid_t jefe;
 
 	void iniciar();
 	void lanzarLectorComandos();

@@ -66,7 +66,7 @@ void Estacion::lanzarJefeEstacion(){
 	ss << cantEmpleados;
 	std::string cant = ss.str();
 	char* const argv[] = { const_cast<char*>(Constantes::pathJefeEstacion.c_str()), const_cast<char*>(cant.c_str()), (char*) 0 };
-	ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
+	jefe = ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
 	canal->abrir();
 }
 
@@ -104,6 +104,7 @@ int Estacion::run(){
 	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
 	log.loggear("Escribí la patente " + salir);
 	std::cout << "Chau!" << std::endl;
+	kill(jefe, 15);
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 15);
 	}

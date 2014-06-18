@@ -11,10 +11,10 @@ const std::string Constantes::SURTIDOR = "./surtidor";
 const std::string Constantes::TRANSFERENCIA = "./transferencia";
 const std::string Constantes::CAJA = "./caja";
 
-const std::string Constantes::pathEmpleado = "./Empleado";
-const std::string Constantes::pathJefeEstacion = "./JefeEstacion";
-const std::string Constantes::pathConsultarCaja = "./ConsultarCaja";
-const std::string Constantes::pathLectorComandos = "./LectorComandos";
+const std::string Constantes::pathEmpleado = "bin/Empleado";
+const std::string Constantes::pathJefeEstacion = "bin/JefeEstacion";
+const std::string Constantes::pathConsultarCaja = "bin/ConsultarCaja";
+const std::string Constantes::pathLectorComandos = "bin/LectorComandos";
 /*
 //PATHS DE PABLO. NO ME LAS BORREN PLEASE, COMENTENLAS
 
