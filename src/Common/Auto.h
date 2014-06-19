@@ -8,6 +8,10 @@
 #ifndef AUTO_H_
 #define AUTO_H_
 
+#define	NORMAL	2
+#define	VIP	1
+#define PRIORIDAD -2
+
 #include <string>
 
 class Auto {
@@ -20,5 +24,13 @@ public:
 	std::string getPatente();
 	virtual ~Auto();
 };
+
+
+
+typedef struct autoStruct {
+	long mtype;
+	char patente[4];
+} autoStruct;
+
 
 #endif /* AUTO_H_ */

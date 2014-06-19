@@ -19,6 +19,7 @@ public:
 	static const std::string SURTIDOR;
 	static const std::string TRANSFERENCIA;
 	static const std::string CAJA;
+	static const std::string COLA;
 
 	//Rutas de ejecutables
 	static const std::string pathEmpleado;

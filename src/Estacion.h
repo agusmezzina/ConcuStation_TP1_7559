@@ -14,6 +14,7 @@
 #include "Common/FifoEscritura.h"
 #include "Common/Caja.h"
 #include "Common/Auto.h"
+#include "Common/Cola.h"
 #include "Common/Constantes.h"
 #include "Common/Surtidor.h"
 #include "Common/ControlEmpleados.h"
@@ -42,6 +43,8 @@ private:
 	std::vector<TransferenciaEmpleado*> transferencias;
 	ControlEmpleados* controlEmpleados;
 	Semaforo* semSurtidores;
+	Cola<autoStruct>* cola;
+
 	std::vector<pid_t> empleados;
 	pid_t jefe;
 

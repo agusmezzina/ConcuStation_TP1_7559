@@ -10,4 +10,4 @@ src/obj
 *.cbp
 *.layout
 language.settings.xml
-
+*.depend

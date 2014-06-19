@@ -17,10 +17,11 @@
 class GeneradorAutos {
 private:
 	int lambda;
+	int mu;
 	char patActual[4];
 public:
 	GeneradorAutos(int media);
-	Auto next();
+	autoStruct next();
 	virtual ~GeneradorAutos();
 };
 

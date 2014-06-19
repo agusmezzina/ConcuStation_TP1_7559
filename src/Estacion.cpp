@@ -7,6 +7,7 @@
 
 #include "Estacion.h"
 #include "Common/Log.h"
+#include <sstream>
 
 Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores),
@@ -26,6 +27,7 @@ void Estacion::iniciar(){
 	caja->setDinero(0);
 
 	canal = new FifoEscritura(Constantes::ARCHIVO_FIFO);
+    cola = new Cola<autoStruct> (Constantes::COLA,0);
 
 	for(char i=0;i<cantSurtidores;i++){
 		surtidores.push_back(new Surtidor(Constantes::SURTIDOR,i,i,1));
@@ -92,18 +94,21 @@ int Estacion::run(){
 	lanzarJefeEstacion();
 	lanzarEmpleados();
 
-	GeneradorAutos rcg(1000); //el parámetro está en milisegundos
+	GeneradorAutos rcg(100); //el parámetro está en milisegundos
 
 	while(sigterm_handler.getGracefulQuit() == 0){
-		Auto a = rcg.next();
+		autoStruct a = rcg.next();
+		/*
 		std::string patente = a.getPatente();
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
-		log.loggear("Escribí la patente " + patente);
+		*/
+		cola->escribir(a);
+		std::stringstream ss;
+		ss << "Mandé el auto "<< a.patente << " ";
+		ss <<((a.mtype ==NORMAL) ? "NORMAL" : "VIP");
+		log.loggear(ss.str());
 	}
-	std::string salir = "q";
-	canal->escribir ( static_cast<const void*>(salir.c_str()), salir.size() );
-	log.loggear("Escribí la patente " + salir);
-	std::cout << "Chau!" << std::endl;
+
 	kill(jefe, 15);
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 15);
@@ -137,7 +142,8 @@ Estacion::~Estacion() {
 		delete surtidores[i];
 	}
 
-
+    cola->destruir();
+    delete cola;
 	//controlEmpleados->eliminarSemaforo();
 
 	semSurtidores->eliminar();

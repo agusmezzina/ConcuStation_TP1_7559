@@ -19,7 +19,7 @@ const int JefeEstacion::BUFFSIZE;
 
 void JefeEstacion::iniciar(){
 	canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
-
+    cola = new Cola<autoStruct> (Constantes::COLA,0);
 	for(char i=0;i<cantidadEmpleados;i++){
 		transferencias.push_back(new TransferenciaEmpleado(Constantes::TRANSFERENCIA,i,i));
 	}
@@ -45,23 +45,28 @@ int JefeEstacion::run(){
     ss <<"Mi pid es:";
     ss << getpid();
 	log.loggear(ss.str());
-	char buffer[BUFFSIZE];
-	bool salir = false;
+//	char buffer[BUFFSIZE];
+//	bool salir = false;
 
 	while(this->sigterm_handler.getGracefulQuit() == 0){
-		ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
+		/*ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
 		std::string mensaje = buffer;
 		mensaje.resize ( bytesLeidos );
 		std::stringstream ss;
-		ss << "Lei el mensaje" << mensaje << std::endl;
-		log.loggear(ss.str());
-
-		Auto a(mensaje);
-		bool libre = asignarAEmpleado(a);
+		*/
+		usleep(200000);
 		std::stringstream ss2;
-		ss2 << "Descarté" << mensaje;
+		autoStruct aS;
+		cola->leer(PRIORIDAD,&aS);
+		ss2 << "Lei la pantente: " << aS.patente << " tipo: ";
+		ss2 <<(aS.mtype==NORMAL?"NORMAL":"VIP");
+		log.loggear(ss2.str());
+		Auto a(aS.patente);
+		bool libre = asignarAEmpleado(a);
+		std::stringstream ss3;
+		ss3 << "Descarté" << aS.patente;
 		if(!libre)
-			log.loggear(ss2.str());
+			log.loggear(ss3.str());
 
 	}
 
@@ -72,6 +77,7 @@ int JefeEstacion::run(){
 
 JefeEstacion::~JefeEstacion() {
 	delete(canal);
+	delete cola;
 	//Libero las transferencias
 	for(char i=0;i<cantidadEmpleados;i++){
 		transferencias[i]->eliminarSemaforos();

@@ -7,6 +7,7 @@
 
 #include "GeneradorAutos.h"
 #include <unistd.h>
+#include <string.h>
 
 GeneradorAutos::GeneradorAutos(int media): lambda(media) {
 	srand(time(NULL));
@@ -14,9 +15,11 @@ GeneradorAutos::GeneradorAutos(int media): lambda(media) {
 	patActual[1]='A';
 	patActual[2]='A';
 	patActual[3]='\0';
+	mu=50;
 }
 
-Auto GeneradorAutos::next(){
+autoStruct GeneradorAutos::next(){
+	autoStruct  a;
 	int n = rand() % 1000 + 1;
 	double u = (double)n / 1000;
 	double t = -lambda * log(u);
@@ -44,9 +47,16 @@ Auto GeneradorAutos::next(){
         }
 	}
 	std::string str(patActual);
+    strncpy(a.patente,patActual,4);
+    a.patente[3]='\0';
+
+    //DEFINO EL TIPO VIP O NORMAL
+    n = rand() % 100 + 1;
+    a.mtype=(n <= mu?NORMAL:VIP);
+
 
 	usleep(t * 1000);
-	return Auto(str);
+	return a;
 }
 
 GeneradorAutos::~GeneradorAutos() {
