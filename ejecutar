@@ -1,0 +1,2 @@
+rm ConcuStation.log
+valgrind ./bin/ConcuStation
