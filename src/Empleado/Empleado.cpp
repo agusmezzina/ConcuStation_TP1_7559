@@ -12,7 +12,6 @@
 Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantSurtidores),
             log(Constantes::LOG){
 	srand(time(NULL));
-	caja = NULL;
 	cola = NULL;
 	colaRta = NULL;
 	transferencia = NULL;
@@ -27,7 +26,6 @@ void Empleado::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM, this);
 
 	transferencia = new TransferenciaEmpleado(Constantes::TRANSFERENCIA,id,id);
-	caja = new Caja(Constantes::CAJA,0);
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
 	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
 
@@ -99,7 +97,6 @@ int Empleado::run(){
 
 void Empleado::finalizar(){
 	try{
-	delete(caja);
 	delete(cola);
 	delete(colaRta);
 	delete(transferencia);

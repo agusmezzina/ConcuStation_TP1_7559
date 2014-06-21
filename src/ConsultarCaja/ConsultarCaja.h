@@ -8,7 +8,6 @@
 #ifndef CONSULTARCAJA_H_
 #define CONSULTARCAJA_H_
 
-#include "../Common/Caja.h"
 #include "../Common/Log.h"
 #include "../Common/Constantes.h"
 #include "../Common/Cola.h"
@@ -19,7 +18,6 @@
 class ConsultarCaja {
 private:
 	Log log;
-	Caja* caja;
 	Cola<opCaja>* cola;
 	Cola<valorCaja>* colaRta;
 	int solicitarValor();

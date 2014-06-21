@@ -13,7 +13,6 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
 		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores),
             log(Constantes::LOG){
 	canal = NULL;
-	caja = NULL;
 	cola = NULL;
 	colaCaja = NULL;
 	colaRespuesta = NULL;
@@ -26,8 +25,6 @@ void Estacion::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
 	crearArchivos();
-	caja = new Caja(Constantes::CAJA, 0, 1);
-	caja->setDinero(0);
 
 	canal = new FifoEscritura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
@@ -50,13 +47,13 @@ void Estacion::crearArchivos(){
 	surtidor.open(Constantes::SURTIDOR.c_str());
 	surtidor.close();
 
-	std::ofstream caja;
-	surtidor.open(Constantes::CAJA.c_str());
-	surtidor.close();
-
 	std::ofstream transferencia;
-	surtidor.open(Constantes::TRANSFERENCIA.c_str());
-	surtidor.close();
+	transferencia.open(Constantes::TRANSFERENCIA.c_str());
+	transferencia.close();
+
+	std::ofstream cola;
+	cola.open(Constantes::COLA.c_str());
+	cola.close();
 }
 
 void Estacion::lanzarLectorComandos(){
@@ -144,8 +141,6 @@ Estacion::~Estacion() {
 	canal->cerrar();
 	canal->eliminar();
 	delete(canal);
-    caja->eliminarSemaforo();
-	delete(caja);
 	//delete(controlEmpleados);
 
 	//Libero surtidores

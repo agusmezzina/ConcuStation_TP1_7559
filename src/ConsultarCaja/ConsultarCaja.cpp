@@ -9,7 +9,6 @@
 #include <sstream>
 
 ConsultarCaja::ConsultarCaja(): log(Constantes::LOG) {
-	caja = new Caja(Constantes::CAJA,0);
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
 	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
 	log.setProceso("CONSULTAR CAJA");
@@ -39,7 +38,6 @@ int ConsultarCaja::solicitarValor(){
 }
 
 ConsultarCaja::~ConsultarCaja() {
-	delete(caja);
 	delete(cola);
 	delete(colaRta);
 }

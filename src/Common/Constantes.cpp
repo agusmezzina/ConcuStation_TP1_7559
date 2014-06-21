@@ -9,7 +9,6 @@
 
 const std::string Constantes::SURTIDOR = "./surtidor";
 const std::string Constantes::TRANSFERENCIA = "./transferencia";
-const std::string Constantes::CAJA = "./caja";
 const std::string Constantes::COLA = "./cola";
 
 

@@ -9,7 +9,6 @@
 #define EMPLEADO_H_
 
 #include "../Common/Auto.h"
-#include "../Common/Caja.h"
 #include "../Common/Constantes.h"
 #include "../Common/Surtidor.h"
 #include "../Common/ControlEmpleados.h"
@@ -37,7 +36,6 @@ private:
 
 	std::vector<Surtidor*> surtidores;
 	Semaforo* semSurtidores;
-	Caja* caja;
 	TransferenciaEmpleado* transferencia;
 	Cola<opCaja>* cola;
 	Cola<valorCaja>* colaRta;

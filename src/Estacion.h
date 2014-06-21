@@ -12,7 +12,6 @@
 #include "Common/ProcessManager.h"
 #include "Common/Semaforo.h"
 #include "Common/FifoEscritura.h"
-#include "Common/Caja.h"
 #include "Common/Auto.h"
 #include "Common/Cola.h"
 #include "Common/Constantes.h"
@@ -39,7 +38,6 @@ private:
     Log log;
     SIGINT_Handler sigint_handler;
     SIGTERM_Handler sigterm_handler;
-	Caja* caja;
 	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
 	std::vector<Surtidor*> surtidores;
 	std::vector<TransferenciaEmpleado*> transferencias;
