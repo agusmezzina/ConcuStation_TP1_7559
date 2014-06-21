@@ -11,6 +11,7 @@ DIR_E=src/Empleado
 DIR_CC=src/ConsultarCaja
 DIR_CM=src/Common
 DIR_LC=src/LectorComandos
+DIR_AC=src/AccesoCaja
 
 # Definición de código fuente
 DEPS=$(wildcard $(DIR)/*.h)
@@ -36,6 +37,10 @@ OBJ_CM=$(patsubst $(DIR_CM)/%.cpp, $(ODIR)/$(DIR_CM)/%.o, $(SRC_CM))
 DEPS_LC=$(wildcard $(DIR_LC)/*.h)
 SRC_LC=$(wildcard $(DIR_LC)/*.cpp)
 OBJ_LC=$(patsubst $(DIR_LC)/%.cpp, $(ODIR)/$(DIR_LC)/%.o, $(SRC_LC))
+
+DEPS_AC=$(wildcard $(DIR_AC)/*.h)
+SRC_AC=$(wildcard $(DIR_AC)/*.cpp)
+OBJ_AC=$(patsubst $(DIR_AC)/%.cpp, $(ODIR)/$(DIR_AC)/%.o, $(SRC_AC))
 
 #--------------------------------------------------------------------------------------------------------------
 
@@ -64,6 +69,10 @@ $(ODIR)/$(DIR_CM)/%.o: $(DIR_CM)/%.cpp $(DEPS_CM)
 $(ODIR)/$(DIR_LC)/%.o: $(DIR_LC)/%.cpp $(DEPS_LC)
 	@mkdir -p $(@D)
 	@$(CC) -c -o $@ $< $(CFLAGS)
+	
+$(ODIR)/$(DIR_AC)/%.o: $(DIR_AC)/%.cpp $(DEPS_AC)
+	@mkdir -p $(@D)
+	@$(CC) -c -o $@ $< $(CFLAGS)
 
 ConcuStation: $(OBJ) $(OBJ_CM)
 	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS) -lm
@@ -80,7 +89,10 @@ ConsultarCaja: $(OBJ_CC) $(OBJ_CM)
 LectorComandos: $(OBJ_LC) $(OBJ_CM)
 	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS)
 	
-all: ConcuStation JefeEstacion Empleado ConsultarCaja LectorComandos
+AccesoCaja: $(OBJ_AC) $(OBJ_CM)
+	$(CC) $^ -o $(ODIR)/$@ $(CFLAGS)
+	
+all: ConcuStation JefeEstacion Empleado ConsultarCaja LectorComandos AccesoCaja
 
 .PHONY: clean all
 
@@ -91,3 +103,4 @@ clean:
 	@rm -f $(ODIR)/$(DIR_E)/*.o
 	@rm -f $(ODIR)/$(DIR_CC)/*.o
 	@rm -f $(ODIR)/$(DIR_LC)/*.o
+	@rm -f $(ODIR)/$(DIR_AC)/*.o

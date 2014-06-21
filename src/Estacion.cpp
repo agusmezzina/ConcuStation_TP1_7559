@@ -14,6 +14,9 @@ Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
             log(Constantes::LOG){
 	canal = NULL;
 	caja = NULL;
+	cola = NULL;
+	colaCaja = NULL;
+	colaRespuesta = NULL;
 	controlEmpleados = NULL;
 	semSurtidores = NULL;
 	log.setProceso("INIT");
@@ -28,6 +31,8 @@ void Estacion::iniciar(){
 
 	canal = new FifoEscritura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
+    colaCaja = new Cola<opCaja> (Constantes::COLA, 1);
+    colaRespuesta = new Cola<valorCaja> (Constantes::COLA, 2);
 
 	for(char i=0;i<cantSurtidores;i++){
 		surtidores.push_back(new Surtidor(Constantes::SURTIDOR,i,i,1));
@@ -86,6 +91,11 @@ void Estacion::lanzarEmpleados(){
 	}
 }
 
+void Estacion::lanzarAccesoCaja(){
+	char* const argv[] = { const_cast<char*>(Constantes::pathAccesoCaja.c_str()), (char*) 0 };
+	accCaja = ProcessManager::run(Constantes::pathAccesoCaja.c_str(), argv);
+}
+
 int Estacion::run(){
 
 	iniciar();
@@ -93,6 +103,7 @@ int Estacion::run(){
 	lanzarLectorComandos();
 	lanzarJefeEstacion();
 	lanzarEmpleados();
+	lanzarAccesoCaja();
 
 	GeneradorAutos rcg(100); //el parámetro está en milisegundos
 
@@ -113,6 +124,7 @@ int Estacion::run(){
 	for(int i = 0; i < cantEmpleados; i++){
 		kill(empleados[i], 15);
 	}
+	kill(accCaja, 15);
 	for(int i = 0; i < 2 + cantEmpleados; i++){
 		ProcessManager::wait();
 	}
@@ -143,7 +155,11 @@ Estacion::~Estacion() {
 	}
 
     cola->destruir();
+    colaCaja->destruir();
+    colaRespuesta->destruir();
     delete cola;
+    delete colaCaja;
+    delete colaRespuesta;
 	//controlEmpleados->eliminarSemaforo();
 
 	semSurtidores->eliminar();

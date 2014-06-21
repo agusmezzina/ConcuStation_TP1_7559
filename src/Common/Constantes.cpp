@@ -17,6 +17,7 @@ const std::string Constantes::pathEmpleado = "bin/Empleado";
 const std::string Constantes::pathJefeEstacion = "bin/JefeEstacion";
 const std::string Constantes::pathConsultarCaja = "bin/ConsultarCaja";
 const std::string Constantes::pathLectorComandos = "bin/LectorComandos";
+const std::string Constantes::pathAccesoCaja = "bin/AccesoCaja";
 
 //PATHS DE PABLO. NO ME LAS BORREN PLEASE, COMENTENLAS
 /*

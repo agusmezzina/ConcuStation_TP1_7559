@@ -12,6 +12,7 @@
 JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados),
         log(Constantes::LOG){
 	canal = NULL;
+	cola = NULL;
 	log.setProceso("JEFE ESTACION");
 }
 

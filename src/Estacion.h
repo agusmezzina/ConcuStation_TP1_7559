@@ -23,6 +23,8 @@
 #include "Common/SIGINT_Handler.h"
 #include "Common/SIGTERM_Handler.h"
 #include "Common/SignalHandler.h"
+#include "Common/OpCaja.h"
+#include "Common/ValorCaja.h"
 #include <vector>
 #include <sstream>
 #include <iostream>
@@ -44,14 +46,18 @@ private:
 	ControlEmpleados* controlEmpleados;
 	Semaforo* semSurtidores;
 	Cola<autoStruct>* cola;
+	Cola<opCaja>* colaCaja;
+	Cola<valorCaja>* colaRespuesta;
 
 	std::vector<pid_t> empleados;
 	pid_t jefe;
+	pid_t accCaja;
 
 	void iniciar();
 	void lanzarLectorComandos();
 	void lanzarJefeEstacion();
 	void lanzarEmpleados();
+	void lanzarAccesoCaja();
 	void crearArchivos();
 
 public:

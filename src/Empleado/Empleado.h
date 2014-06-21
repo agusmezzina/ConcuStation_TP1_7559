@@ -17,6 +17,9 @@
 #include "../Common/Log.h"
 #include "../Common/EventHandler.h"
 #include "../Common/SignalHandler.h"
+#include "../Common/Cola.h"
+#include "../Common/OpCaja.h"
+#include "../Common/ValorCaja.h"
 
 #include <signal.h>
 #include <assert.h>
@@ -36,9 +39,12 @@ private:
 	Semaforo* semSurtidores;
 	Caja* caja;
 	TransferenciaEmpleado* transferencia;
+	Cola<opCaja>* cola;
+	Cola<valorCaja>* colaRta;
 
 	void iniciar();
 	void finalizar();
+	int depositarEnCaja(int);
 public:
 	virtual int handleSignal ( int signum );
 	Empleado(int, int);

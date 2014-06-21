@@ -13,7 +13,10 @@ Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantS
             log(Constantes::LOG){
 	srand(time(NULL));
 	caja = NULL;
+	cola = NULL;
+	colaRta = NULL;
 	transferencia = NULL;
+	semSurtidores = NULL;
 	std::stringstream ss;
 	ss << "EMPLEADO ";
 	ss << id;
@@ -25,6 +28,8 @@ void Empleado::iniciar(){
 
 	transferencia = new TransferenciaEmpleado(Constantes::TRANSFERENCIA,id,id);
 	caja = new Caja(Constantes::CAJA,0);
+	cola = new Cola<opCaja> (Constantes::COLA, 1);
+	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
 
 	for(int i=0;i<cantidadSurtidores;i++){
 		surtidores.push_back(new Surtidor(Constantes::SURTIDOR,i,i));
@@ -36,6 +41,19 @@ int Empleado::handleSignal ( int signum ) {
 	assert ( signum == SIGTERM );
 	this->finalizar();
 	exit(0);
+}
+
+int Empleado::depositarEnCaja(int monto){
+	opCaja op;
+	op.mtype = this->id + 2;
+	op.valor = monto;
+	op.escribir = true;
+
+	cola->escribir(op);
+
+	valorCaja valor;
+	colaRta->leer(this->id + 2, &valor);
+	return valor.monto;
 }
 
 int Empleado::run(){
@@ -64,7 +82,8 @@ int Empleado::run(){
                 usleep(100000*n); //100*n
                 std::stringstream ss2;
                 ss2 << "Deposito en la caja. El valor actual es: ";
-                ss2 << caja->depositar(10*n);//Cambiar por un random
+                //ss2 << caja->depositar(10*n);//Cambiar por un random
+                ss2 << this->depositarEnCaja(10*n);
                 log.loggear(ss2.str());
                 surtidores[i]->liberarSurtidor();
                 break;
@@ -81,6 +100,8 @@ int Empleado::run(){
 void Empleado::finalizar(){
 	try{
 	delete(caja);
+	delete(cola);
+	delete(colaRta);
 	delete(transferencia);
 
 	for(int i=0;i<cantidadSurtidores;i++){
