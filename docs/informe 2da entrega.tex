@@ -7,10 +7,8 @@
 
 \begin{document}
 
-\title{Informe Trabajo Práctico 1 - Técnicas de Programación Concurrente (75.59)}
-\author{Victoria Perelló (89608)\\
-        \and
-        Agustín Mezzina (89637)\\
+\title{Informe Trabajo Práctico 2 - Técnicas de Programación Concurrente (75.59)}
+\author{Agustín Mezzina (89637)\\
 	\and
         Pablo Rodríguez (93970)}
 \maketitle
@@ -20,7 +18,8 @@
 
 \section{Introducción}
 \subsection{Descripción del problema}
-El presente trabajo práctico consiste en una simulación de la dinámica de operación de una estación de servicio. En ella, los operarios deben atender a los clientes entrantes utilizando los recursos de los cuales dispone la estacion. El eje del problema es la comunicación y la sincronización de los operarios en el uso de dichos recursos para el correcto funcionamiento del negocio.
+El presente trabajo práctico consiste en una simulación de la dinámica de operación de una estación de servicio. En ella, los operarios deben atender a los clientes entrantes utilizando los recursos de los cuales dispone la estación. El eje del problema es la comunicación y la sincronización de los operarios en el uso de dichos recursos para el correcto funcionamiento del negocio.
+Esta segunda entrega agrega la problemática del manejo de prioridades en la atención de autos entrantes y el acceso a la caja del lugar.
 \subsection{Modo de uso}
 Adjunto a este informe se encuentra el código fuente de la aplicación y un archivo Makefile para realizar la compilación. El sistema debe ser compilado utilizando la directiva ``make all'', el cuál generará cinco ejecutables con los programas que van a interactuar en el sistema.
 Para comenzar la simulación, debe ejecutarse en una consola el archivo ``ConcuStation''.
@@ -35,17 +34,18 @@ Durante el transcurso de la misma, el usuario puede ingresar dos comandos por en
 \section{Procesos}
 La aplicación se divide en los siguientes procesos:
 \begin{enumerate}
-	\item Init: genera un auto cada cierta cantidad aleatoria de tiempo transcurrido y los envía al jefe de estación para su procesamiento.
-	\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha.
+	\item Init: genera un auto cada cierta cantidad aleatoria de tiempo transcurrido y los envía al jefe de estación para su procesamiento. El auto puede ser, también de manera aleatoria, regular o VIP.
+	\item Jefe de estación: recibe los autos entrantes y los asigna a empleados libres. En caso de no haber empleados libres, los despacha. Prioriza la atención de los autos VIP sobre los regulares.
 	\item Empleado: asigna autos a surtidores libres. Si no hay surtidores libres, espera a que se libere alguno. Realiza el servicio. Cobra y guarda la recaudación en la caja.
 	\item Consulta caja registradora: consulta asincrónica sobre el valor de la recaudación en caja.
 	\item Lector de comandos: escucha comandos entrantes por entrada estándar y toma las medidas correspondientes para responder a ellos.
+	\item Acceso caja: posee la caja registradora de la estación. Recibe pedidos de los Empleados y de Consultar Caja para operar sobre ella y los atiende dando prioridad a los emitidos por Consultar Caja.
 \end{enumerate}
 
 \section{Comunicación entre procesos}
 En el siguiente diagrama, se muestra el esquema de comunicación entre los procesos del sistema. Incluye los datos que intercambian los procesos que se comunican entre sí y los recursos a los que deben acceder de manera concurrente.
 \\[1\baselineskip]
-\includegraphics[width=\textwidth]{overview}
+\includegraphics[width=\textwidth]{overview2}
 
 \section{Problemas típicos de concurrencia}
 \begin{enumerate}
@@ -57,20 +57,24 @@ En el siguiente diagrama, se muestra el esquema de comunicación entre los proce
 \section{Mecanismos de concurrencia a utilizar}
 En el siguiente diagrama se muestran los mecanismos de concurrencia utilizados para lograr la comunicación y sincronización de procesos:
 \\[1\baselineskip]
-\includegraphics[width=\textwidth]{mecanismos}
+\includegraphics[width=\textwidth]{mecanismos2}
 \subsection{Init - Jefe de estación}
-El buffer de autos se implementó utilizando un named pipe (o FIFO), de manera que el proceso inicial ingresa los autos al canal a medida que los va produciendo y el jefe de estación los toma en orden para procesarlos. Este mecanismo de concurrencia provee no sólo comunicación entre ambos procesos, sino que también sincronismo.
+El buffer de autos se implementó utilizando una cola de mensajes, de manera que el proceso inicial ingresa los autos al canal a medida que los va produciendo y el jefe de estación los toma para procesarlos.
+Cada auto se guarda con un valor de mtype diferente, según sea regular o VIP. Esto permite al jefe de estación tomar primero los autos VIP y, en caso de no haber ninguno, atender uno regular.
 \subsection{Jefe de estación - Empleado(s)}
 Cada Empleado mantiene con el Jefe de Estación un espacio de intercambio en memoria compartida, donde se guarda información sobre el estado del Empleado (libre u ocupado) y el auto que debe ser atendido. Cada uno de estos espacios de intercambio está protegido con un semáforo binario para lograr exclusión mutua entre el Jefe y el Empleado correspondiente en el acceso al mismo, ya sea para lectura o para escritura.
 \subsection{Empleado - Empleado}
 Los Surtidores están guardados en bloques de memoria compartida accesibles a todos los Empleados. Dicho bloque está protegido por un semáforo general que permite el acceso al área de memoria cuando haya algún surtidor libre. Cada espacio de memoria donde se encuentra un surtidor está, a su vez, protegido por un semáforo binario.
-\subsection{Empleado(s) - Consultar Caja}
-Estos procesos acceden a un espacio de memoria compartida donde está la Caja. Se excluyen mutuamente mediante un semáforo binario para coordinar el acceso a la misma.
+\subsection{Empleado(s) - Consultar Caja - Acceso Caja}
+El acceso a la caja es coordinado mediante la utilización de dos colas de mensajes. En la primera, los procesos Consultar Caja y Empleado escriben una solicitud con la operación que quiere realizarse sobre la caja registradora, utilizando cada proceso un número de mtype diferente como identificación.
+El proceso Acceso Caja toma esas solicitudes, dando prioridad a las emitidas por Consultar Caja y pasando a las emitidas por los Empleados en caso de no haber ninguna, y realiza el cómputo necesario sobre la caja.
+Acto seguido, escribe la respuesta (que en todos los casos es el saldo actual de la caja) en la segunda cola de mensajes, dirigida al proceso en particular que realizó la solicitud.
+Los Empleados y Consultar Caja esperan esta respuesta para continuar con su operatoria.
 
 \section{Otras consideraciones}
 \subsection{Inicio y finalización}
-Al iniciar la simulación, el proceso Init crea todas las memorias compartidas y semáforos (estos últimos también los inicializa) necesarios para el funcionamiento del sistema, así como también el FIFO que sirve como canal de comunicación con el Jefe de empleados. Luego lanza los procesos Jefe de Empleados, Lector de Comandos y todos los Empleados. El proceso Consultar Caja es lanzado por el Lector de Comandos cada vez que el usuario ingresa el comando ``c''. Este proceso finaliza luego de imprimir el valor de la Caja en pantalla.
-Cuando el Lector de Comandos recibe el comando ``q'', el sistema debe finalizar. Para esto, se envía la señal SIGTERM al proceso Init y este, a su vez, envía una señal similar a todos los Empleados y un mensaje especial al Jefe de Estación a través del FIFO. Estos procesos manejarán los mensajes eliminando todos sus recursos y finalizando correctamente. El proceso Init espera la finalización de los demás procesos y luego procede a elminar todos los canales de comunicación creados inicialmente, para luego finalizar.
+Al iniciar la simulación, el proceso Init crea todas las memorias compartidas, colas de mensajes y semáforos (estos últimos también los inicializa) necesarios para el funcionamiento del sistema. Luego lanza los procesos Jefe de Empleados, Lector de Comandos, Acceso Caja y todos los Empleados. El proceso Consultar Caja es lanzado por el Lector de Comandos cada vez que el usuario ingresa el comando ``c''. Este proceso finaliza luego de imprimir el valor de la Caja en pantalla.
+Cuando el Lector de Comandos recibe el comando ``q'', el sistema debe finalizar. Para esto, se envía la señal SIGTERM al proceso Init y este, a su vez, envía una señal similar a todos los Empleados, al Jefe de Estación y al proceso Acceso Caja. Estos procesos manejarán la señal eliminando todos sus recursos y finalizando correctamente. El proceso Init espera la finalización de los demás procesos y luego procede a elminar todos los canales de comunicación creados inicialmente, para luego finalizar.
 \subsection{Log}
 Todos los procesos de la simulación informan las acciones que realizan mediante la escritura a un único archivo denominado ``ConcuStation.log''. El mismo puede utilizarse para verificar el funcionamiento del sistema y el orden en el que se realizan las actividades. Para coordinar el acceso al archivo, se utilizan locks de escritura.
 
@@ -85,6 +89,6 @@ Recursos:
 Procesos:
 \\[1\baselineskip]
 \includegraphics[width=\textwidth]{clasesConcurrencia3}
-\subsection{Diagrama de transición de estados: Jefe de Estación}
-\includegraphics[width=\textwidth]{diagramaTransicionEstadosJefe}
+\subsection{Diagrama de transición de estados: Empleado}
+\includegraphics[width=\textwidth]{diagramaTransicionEstadosEmpleado}
 \end{document}
