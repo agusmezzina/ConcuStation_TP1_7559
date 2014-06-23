@@ -18,6 +18,7 @@
 #include "../Common/TransferenciaEmpleado.h"
 #include "../Common/Log.h"
 #include "../Common/SIGTERM_Handler.h"
+#include "../Common/SignalHandler.h"
 #include "../Common/Cola.h"
 
 class JefeEstacion {

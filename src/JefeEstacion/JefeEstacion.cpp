@@ -19,6 +19,7 @@ JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados),
 const int JefeEstacion::BUFFSIZE;
 
 void JefeEstacion::iniciar(){
+	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
 	canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
 	for(char i=0;i<cantidadEmpleados;i++){

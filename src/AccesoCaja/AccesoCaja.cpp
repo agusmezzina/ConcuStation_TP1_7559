@@ -14,6 +14,7 @@ AccesoCaja::AccesoCaja() {
 }
 
 void AccesoCaja::iniciar(){
+	SignalHandler :: getInstance()->registrarHandler ( SIGTERM, this);
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
 	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
 }
