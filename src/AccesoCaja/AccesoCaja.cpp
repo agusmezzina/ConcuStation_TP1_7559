@@ -37,6 +37,7 @@ int AccesoCaja::run(){
 
 void AccesoCaja::finalizar(){
 	delete(cola);
+	SignalHandler::destruir();
 }
 
 int AccesoCaja::handleSignal ( int signum ) {

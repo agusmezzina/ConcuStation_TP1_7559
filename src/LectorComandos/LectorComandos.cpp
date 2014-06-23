@@ -37,6 +37,5 @@ int LectorComandos::run(){
 }
 
 LectorComandos::~LectorComandos() {
-	// TODO Auto-generated destructor stub
 }
 

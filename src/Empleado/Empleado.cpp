@@ -105,6 +105,7 @@ void Empleado::finalizar(){
 		delete surtidores[i];
 	}
 	delete semSurtidores;
+	SignalHandler::destruir();
 	}catch(char const* s){
         std::cout << s;
 	}

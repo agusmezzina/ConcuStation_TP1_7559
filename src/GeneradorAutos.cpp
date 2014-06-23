@@ -55,7 +55,7 @@ autoStruct GeneradorAutos::next(){
     a.mtype=(n <= mu?NORMAL:VIP);
 
 
-	usleep(t * 1000);
+	usleep(t * 10000);
 	return a;
 }
 

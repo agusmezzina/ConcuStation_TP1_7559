@@ -85,5 +85,6 @@ JefeEstacion::~JefeEstacion() {
 		transferencias[i]->eliminarSemaforos();
 		delete transferencias[i];
 	}
+	SignalHandler::destruir();
 }
 

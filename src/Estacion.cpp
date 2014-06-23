@@ -159,7 +159,7 @@ Estacion::~Estacion() {
 
 	semSurtidores->eliminar();
 	delete(semSurtidores);
-	//Libero la caja
+	SignalHandler::destruir();
 
 }
 
