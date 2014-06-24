@@ -159,7 +159,6 @@ Estacion::~Estacion() {
 
 	semSurtidores->eliminar();
 	delete(semSurtidores);
-	SignalHandler::destruir();
 
 }
 
