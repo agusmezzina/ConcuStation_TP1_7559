@@ -7,12 +7,17 @@
 
 #include "LectorComandos.h"
 
-LectorComandos::LectorComandos(){
+LectorComandos::LectorComandos(bool debug): debug(debug){
 
 }
 
 void LectorComandos::consultaCaja(){
-	char* const argv[] = { const_cast<char*>(Constantes::pathConsultarCaja.c_str()), (char*) 0 };
+	std::string paramDebug;
+	if(debug)
+			paramDebug = "s";
+		else
+			paramDebug = "n";
+	char* const argv[] = { const_cast<char*>(Constantes::pathConsultarCaja.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) 0 };
 	ProcessManager::run(Constantes::pathConsultarCaja.c_str(), argv);
 }
 void LectorComandos::notificarFin(){

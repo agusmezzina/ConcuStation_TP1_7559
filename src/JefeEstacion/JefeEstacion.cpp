@@ -9,18 +9,21 @@
 #include <sstream>
 #include <fstream>
 
-JefeEstacion::JefeEstacion(int cantEmpleados): cantidadEmpleados(cantEmpleados),
-        log(Constantes::LOG){
-	canal = NULL;
+JefeEstacion::JefeEstacion(int cantEmpleados, bool debug): cantidadEmpleados(cantEmpleados), debug(debug){
+	//canal = NULL;
 	cola = NULL;
-	log.setProceso("JEFE ESTACION");
+	log = NULL;
 }
 
 const int JefeEstacion::BUFFSIZE;
 
 void JefeEstacion::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
-	canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
+	if(debug){
+		log = new Log(Constantes::LOG);
+		log->setProceso("JEFE ESTACION");
+	}
+	//canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
 	for(char i=0;i<cantidadEmpleados;i++){
 		transferencias.push_back(new TransferenciaEmpleado(Constantes::TRANSFERENCIA,i,i));
@@ -42,43 +45,42 @@ bool JefeEstacion::asignarAEmpleado(const Auto& a){
 int JefeEstacion::run(){
 	iniciar();
 
-	canal->abrir();
-    std::stringstream ss;
-    ss <<"Mi pid es:";
-    ss << getpid();
-	log.loggear(ss.str());
-//	char buffer[BUFFSIZE];
-//	bool salir = false;
-
-	while(this->sigterm_handler.getGracefulQuit() == 0){
-		/*ssize_t bytesLeidos = canal->leer ( static_cast<void*>(buffer), 3 );
-		std::string mensaje = buffer;
-		mensaje.resize ( bytesLeidos );
+	//canal->abrir();
+	if(debug){
 		std::stringstream ss;
-		*/
-		usleep(200000);
-		std::stringstream ss2;
-		autoStruct aS;
-		cola->leer(PRIORIDAD,&aS);
-		ss2 << "Lei la pantente: " << aS.patente << " tipo: ";
-		ss2 <<(aS.mtype==NORMAL?"NORMAL":"VIP");
-		log.loggear(ss2.str());
-		Auto a(aS.patente);
-		bool libre = asignarAEmpleado(a);
-		std::stringstream ss3;
-		ss3 << "Descarté" << aS.patente;
-		if(!libre)
-			log.loggear(ss3.str());
-
+		ss <<"Mi pid es:";
+		ss << getpid();
+		log->loggear(ss.str());
 	}
 
-	log.loggear("Final");
-	canal->cerrar();
+	while(this->sigterm_handler.getGracefulQuit() == 0){
+		usleep(200000);
+		autoStruct aS;
+		cola->leer(PRIORIDAD,&aS);
+		if(debug){
+			std::stringstream ss2;
+			ss2 << "Lei la pantente: " << aS.patente << " tipo: ";
+			ss2 <<(aS.mtype==NORMAL?"NORMAL":"VIP");
+			log->loggear(ss2.str());
+		}
+		Auto a(aS.patente);
+		bool libre = asignarAEmpleado(a);
+		if((!libre)&&(debug)){
+			std::stringstream ss3;
+			ss3 << "Descarté" << aS.patente;
+			log->loggear(ss3.str());
+		}
+
+	}
+	if(debug)
+		log->loggear("Final");
+	//canal->cerrar();
 	return 0;
 }
 
 JefeEstacion::~JefeEstacion() {
-	delete(canal);
+	//delete(canal);
+	delete log;
 	delete cola;
 	//Libero las transferencias
 	for(char i=0;i<cantidadEmpleados;i++){

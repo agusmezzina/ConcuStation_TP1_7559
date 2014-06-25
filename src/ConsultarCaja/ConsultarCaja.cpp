@@ -8,10 +8,15 @@
 #include "ConsultarCaja.h"
 #include <sstream>
 
-ConsultarCaja::ConsultarCaja(): log(Constantes::LOG) {
+ConsultarCaja::ConsultarCaja(bool debug): debug(debug){
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
 	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
-	log.setProceso("CONSULTAR CAJA");
+	log = NULL;
+	if(debug)
+	{
+		log = new Log(Constantes::LOG);
+		log->setProceso("CONSULTAR CAJA");
+	}
 }
 
 int ConsultarCaja::run(){
@@ -20,7 +25,8 @@ int ConsultarCaja::run(){
 	//mensaje << caja->consultarCaja();
 	mensaje << this->solicitarValor();
 	std::cout << mensaje.str() << std::endl;
-	log.loggear(mensaje.str());
+	if(debug)
+		log->loggear(mensaje.str());
 	return 0;
 }
 
@@ -38,6 +44,7 @@ int ConsultarCaja::solicitarValor(){
 }
 
 ConsultarCaja::~ConsultarCaja() {
+	delete(log);
 	delete(cola);
 	delete(colaRta);
 }

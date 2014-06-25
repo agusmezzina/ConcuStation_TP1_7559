@@ -16,7 +16,14 @@ int main(int argc, char *argv[]){
 	if (!(ss >> cantEmpleados))
 		std::cerr << "Invalid number " << argv[1] << std::endl;
 
-	JefeEstacion jefe(cantEmpleados);
+	char debug = argv[2][0];
+	bool modoDebug;
+	if(debug == 's')
+		modoDebug = true;
+	else
+		modoDebug = false;
+
+	JefeEstacion jefe(cantEmpleados, modoDebug);
 	try{
 	return jefe.run();
 	}

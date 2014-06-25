@@ -17,12 +17,13 @@
 
 class ConsultarCaja {
 private:
-	Log log;
+	bool debug;
+	Log* log;
 	Cola<opCaja>* cola;
 	Cola<valorCaja>* colaRta;
 	int solicitarValor();
 public:
-	ConsultarCaja();
+	ConsultarCaja(bool);
 	int run();
 	virtual ~ConsultarCaja();
 };

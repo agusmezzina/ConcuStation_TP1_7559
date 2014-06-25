@@ -9,8 +9,14 @@
 #include <sstream>
 
 int main(int argc, char *argv[]){
+	char debug = argv[1][0];
+	bool modoDebug;
+	if(debug == 's')
+		modoDebug = true;
+	else
+		modoDebug = false;
 
-	LectorComandos lector;
+	LectorComandos lector(modoDebug);
 	try{
 	return lector.run();
 	}

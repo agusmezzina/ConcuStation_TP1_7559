@@ -11,7 +11,6 @@
 #include "GeneradorAutos.h"
 #include "Common/ProcessManager.h"
 #include "Common/Semaforo.h"
-#include "Common/FifoEscritura.h"
 #include "Common/Auto.h"
 #include "Common/Cola.h"
 #include "Common/Constantes.h"
@@ -19,7 +18,6 @@
 #include "Common/ControlEmpleados.h"
 #include "Common/TransferenciaEmpleado.h"
 #include "Common/Log.h"
-#include "Common/SIGINT_Handler.h"
 #include "Common/SIGTERM_Handler.h"
 #include "Common/SignalHandler.h"
 #include "Common/OpCaja.h"
@@ -34,11 +32,11 @@ class Estacion {
 private:
 	int cantEmpleados;
 	int cantSurtidores;
+	bool debug;
 
-    Log log;
-    SIGINT_Handler sigint_handler;
+    Log* log;
     SIGTERM_Handler sigterm_handler;
-	FifoEscritura* canal; //Fifo hacia el JefeEmpleados
+	//FifoEscritura* canal;
 	std::vector<Surtidor*> surtidores;
 	std::vector<TransferenciaEmpleado*> transferencias;
 	ControlEmpleados* controlEmpleados;
@@ -59,7 +57,7 @@ private:
 	void crearArchivos();
 
 public:
-	Estacion(int cantidadEmpleados, int cantidadSurtidores);
+	Estacion(int cantidadEmpleados, int cantidadSurtidores, bool debug);
 	int run();
 	virtual ~Estacion();
 };

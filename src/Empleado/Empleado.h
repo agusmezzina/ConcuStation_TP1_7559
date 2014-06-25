@@ -31,8 +31,9 @@ class Empleado: public EventHandler {
 private:
 	int id;
 	int cantidadSurtidores;
+	bool debug;
 
-    Log log;
+    Log* log;
 
 	std::vector<Surtidor*> surtidores;
 	Semaforo* semSurtidores;
@@ -45,7 +46,7 @@ private:
 	int depositarEnCaja(int);
 public:
 	virtual int handleSignal ( int signum );
-	Empleado(int, int);
+	Empleado(int, int, bool);
 	int run();
 	virtual ~Empleado();
 };

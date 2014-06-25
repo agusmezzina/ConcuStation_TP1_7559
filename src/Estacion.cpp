@@ -9,27 +9,31 @@
 #include "Common/Log.h"
 #include <sstream>
 
-Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores):
-		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores),
-            log(Constantes::LOG){
-	canal = NULL;
+Estacion::Estacion(int cantidadEmpleados, int cantidadSurtidores, bool debug):
+		cantEmpleados(cantidadEmpleados), cantSurtidores(cantidadSurtidores), debug(debug){
+	//canal = NULL;
+	log = NULL;
 	cola = NULL;
 	colaCaja = NULL;
 	colaRespuesta = NULL;
 	controlEmpleados = NULL;
 	semSurtidores = NULL;
-	log.setProceso("INIT");
+	accCaja = 0;
+	jefe = 0;
 }
 
 void Estacion::iniciar(){
-	SignalHandler :: getInstance()->registrarHandler ( SIGINT,&sigint_handler );
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM,&sigterm_handler );
 	crearArchivos();
 
-	canal = new FifoEscritura(Constantes::ARCHIVO_FIFO);
+	//canal = new FifoEscritura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
     colaCaja = new Cola<opCaja> (Constantes::COLA, 1);
     colaRespuesta = new Cola<valorCaja> (Constantes::COLA, 2);
+    if(debug){
+    	log = new Log(Constantes::LOG);
+    	log->setProceso("INIT");
+    }
 
 	for(char i=0;i<cantSurtidores;i++){
 		surtidores.push_back(new Surtidor(Constantes::SURTIDOR,i,i,1));
@@ -57,11 +61,12 @@ void Estacion::crearArchivos(){
 }
 
 void Estacion::lanzarLectorComandos(){
-	std::stringstream ss;
-	int pid_n = getpid();
-	ss << pid_n;
-	std::string pid = ss.str();
-	char* const argv[] = { const_cast<char*>(Constantes::pathLectorComandos.c_str()), (char*) 0 };
+	std::string paramDebug;
+	if(debug)
+			paramDebug = "s";
+		else
+			paramDebug = "n";
+	char* const argv[] = { const_cast<char*>(Constantes::pathLectorComandos.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) 0 };
 	ProcessManager::run(Constantes::pathLectorComandos.c_str(), argv);
 }
 
@@ -69,9 +74,14 @@ void Estacion::lanzarJefeEstacion(){
 	std::stringstream ss;
 	ss << cantEmpleados;
 	std::string cant = ss.str();
-	char* const argv[] = { const_cast<char*>(Constantes::pathJefeEstacion.c_str()), const_cast<char*>(cant.c_str()), (char*) 0 };
+	std::string paramDebug;
+	if(debug)
+			paramDebug = "s";
+		else
+			paramDebug = "n";
+	char* const argv[] = { const_cast<char*>(Constantes::pathJefeEstacion.c_str()), const_cast<char*>(cant.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) 0 };
 	jefe = ProcessManager::run(Constantes::pathJefeEstacion.c_str(), argv);
-	canal->abrir();
+	//canal->abrir();
 }
 
 void Estacion::lanzarEmpleados(){
@@ -82,7 +92,13 @@ void Estacion::lanzarEmpleados(){
 		std::stringstream ss;
 		ss << i;
 		std::string id = ss.str();
-		char* const argvE[] = { const_cast<char*>(Constantes::pathEmpleado.c_str()),const_cast<char*>(id.c_str()), const_cast<char*>(cant.c_str()),(char*) NULL};
+		std::string paramDebug;
+			if(debug)
+				paramDebug = "s";
+			else
+				paramDebug = "n";
+		char* const argvE[] = { const_cast<char*>(Constantes::pathEmpleado.c_str()),const_cast<char*>(id.c_str()),
+				const_cast<char*>(cant.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) NULL};
 		//file.flush();
 		empleados.push_back(ProcessManager::run(Constantes::pathEmpleado.c_str(), argvE));
 	}
@@ -111,10 +127,12 @@ int Estacion::run(){
 		canal->escribir ( static_cast<const void*>(patente.c_str()), patente.size() );
 		*/
 		cola->escribir(a);
-		std::stringstream ss;
-		ss << "Mandé el auto "<< a.patente << " ";
-		ss <<((a.mtype ==NORMAL) ? "NORMAL" : "VIP");
-		log.loggear(ss.str());
+		if(debug){
+			std::stringstream ss;
+			ss << "Mandé el auto "<< a.patente << " ";
+			ss <<((a.mtype ==NORMAL) ? "NORMAL" : "VIP");
+			log->loggear(ss.str());
+		}
 	}
 
 	kill(jefe, 15);
@@ -125,12 +143,14 @@ int Estacion::run(){
 	for(int i = 0; i < 2 + cantEmpleados; i++){
 		ProcessManager::wait();
 	}
-	log.loggear("Final");
+	if(debug)
+		log->loggear("Final");
 	return 0;
 }
 
 Estacion::~Estacion() {
 	SignalHandler::destruir();
+	delete(log);
 
     //Libero las transferencias
 	for(char i=0;i<cantEmpleados;i++){
@@ -138,9 +158,9 @@ Estacion::~Estacion() {
 		delete transferencias[i];
 	}
 
-	canal->cerrar();
-	canal->eliminar();
-	delete(canal);
+	//canal->cerrar();
+	//canal->eliminar();
+	//delete(canal);
 	//delete(controlEmpleados);
 
 	//Libero surtidores

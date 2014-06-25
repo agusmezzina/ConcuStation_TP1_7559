@@ -12,7 +12,6 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include "../Common/FifoLectura.h"
 #include "../Common/Constantes.h"
 #include "../Common/Auto.h"
 #include "../Common/TransferenciaEmpleado.h"
@@ -25,10 +24,11 @@ class JefeEstacion {
 private:
 	static const int BUFFSIZE = 50;
 	int cantidadEmpleados;
+	bool debug;
 
-	Log log;
+	Log* log;
 
-	FifoLectura* canal;
+	//FifoLectura* canal;
 	std::vector<TransferenciaEmpleado*> transferencias;
 	SIGTERM_Handler sigterm_handler;
 	Cola<autoStruct>* cola;
@@ -37,7 +37,7 @@ private:
 	//Devuelve false si no encontró empleado libre
 	bool asignarAEmpleado(const Auto& a);
 public:
-	JefeEstacion(int);
+	JefeEstacion(int, bool);
 	int run();
 	virtual ~JefeEstacion();
 };

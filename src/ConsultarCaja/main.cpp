@@ -10,9 +10,16 @@
 #include "ConsultarCaja.h"
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]) {
 	//cout << "Soy el consultar caja. Mi pid es:" << getpid() << endl;
-	ConsultarCaja cc;
+	char debug = argv[1][0];
+	bool modoDebug;
+	if(debug == 's')
+		modoDebug = true;
+	else
+		modoDebug = false;
+
+	ConsultarCaja cc(modoDebug);
 	try{
 	return cc.run();
 	}

@@ -17,11 +17,18 @@ int main(int argc, char *argv[]) {
 		std::cerr << "Invalid number " << argv[1] << std::endl;
 
 	std::istringstream ss2(argv[2]);
-		int cantSurtidores;
-		if (!(ss2 >> cantSurtidores))
-			std::cerr << "Invalid number " << argv[2] << std::endl;
+	int cantSurtidores;
+	if (!(ss2 >> cantSurtidores))
+		std::cerr << "Invalid number " << argv[2] << std::endl;
 
-	Empleado empleado(idEmpleado, cantSurtidores);
+	char debug = argv[3][0];
+	bool modoDebug;
+	if(debug == 's')
+		modoDebug = true;
+	else
+		modoDebug = false;
+
+	Empleado empleado(idEmpleado, cantSurtidores, modoDebug);
 	try{
 	return empleado.run();
 	}

@@ -9,22 +9,25 @@
 #include <sstream>
 #include <unistd.h>
 
-Empleado::Empleado(int id, int cantSurtidores): id(id), cantidadSurtidores(cantSurtidores),
-            log(Constantes::LOG){
+Empleado::Empleado(int id, int cantSurtidores, bool debug): id(id), cantidadSurtidores(cantSurtidores), debug(debug){
 	srand(time(NULL));
+	log = NULL;
 	cola = NULL;
 	colaRta = NULL;
 	transferencia = NULL;
 	semSurtidores = NULL;
-	std::stringstream ss;
-	ss << "EMPLEADO ";
-	ss << id;
-	log.setProceso(ss.str());
 }
 
 void Empleado::iniciar(){
 	SignalHandler :: getInstance()->registrarHandler ( SIGTERM, this);
 
+	if(debug){
+		std::stringstream ss;
+		ss << "EMPLEADO ";
+		ss << id;
+		log = new Log(Constantes::LOG);
+		log->setProceso(ss.str());
+	}
 	transferencia = new TransferenciaEmpleado(Constantes::TRANSFERENCIA,id,id);
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
 	colaRta = new Cola<valorCaja> (Constantes::COLA, 2);
@@ -55,57 +58,64 @@ int Empleado::depositarEnCaja(int monto){
 }
 
 int Empleado::run(){
-    std::stringstream ss;
-    ss <<"Mi pid es:";
-    ss << getpid();
-	//log.loggear(ss.str());
 	iniciar();
-	//log.loggear("Inicialice recursos");
 	while(1){
-		//log.loggear("Quiero leer");
 		Auto a = transferencia->atenderAuto();
-		log.loggear("Intento tomar surtidor");
+		if(debug)
+			log->loggear("Intento tomar surtidor");
 		semSurtidores->p();
-		log.loggear("Hay Surtidor. Lo busco");
+		if(debug)
+			log->loggear("Hay Surtidor. Lo busco");
 		for(int i=0; i < cantidadSurtidores; i++){
             if(surtidores[i]->ocuparSiEstaLibre(getpid())){
-                std::stringstream ss;
-                ss << "Encontre el surtidor ";
-                ss << i;
-                log.loggear(ss.str());
+            	if(debug){
+					std::stringstream ss;
+					ss << "Encontre el surtidor ";
+					ss << i;
+					log->loggear(ss.str());
+            	}
                 int n = rand() % 100 +1;
-                std::stringstream ss3;
-                ss3 << "Cargo " << n << " litros";
-                log.loggear(ss3.str());
+                if(debug)
+                {
+					std::stringstream ss3;
+					ss3 << "Cargo " << n << " litros";
+					log->loggear(ss3.str());
+                }
                 usleep(100000*n); //100*n
-                std::stringstream ss2;
-                ss2 << "Deposito en la caja. El valor actual es: ";
-                //ss2 << caja->depositar(10*n);//Cambiar por un random
-                ss2 << this->depositarEnCaja(10*n);
-                log.loggear(ss2.str());
+                int depositado = this->depositarEnCaja(10*n);
+                if(debug){
+					std::stringstream ss2;
+					ss2 << "Deposito en la caja. El valor actual es: ";
+					//ss2 << caja->depositar(10*n);//Cambiar por un random
+					ss2 << depositado;
+					log->loggear(ss2.str());
+                }
                 surtidores[i]->liberarSurtidor();
                 break;
             }
 		}
-		log.loggear("Atendí auto " + a.getPatente());
+		if(debug)
+			log->loggear("Atendí auto " + a.getPatente());
 		semSurtidores->v();
 		transferencia->terminarAtencion();
 	}
-	log.loggear("Termine!");
+	if(debug)
+		log->loggear("Termine!");
 	return 0;
 }
 
 void Empleado::finalizar(){
 	try{
-	delete(cola);
-	delete(colaRta);
-	delete(transferencia);
+		delete(log);
+		delete(cola);
+		delete(colaRta);
+		delete(transferencia);
 
-	for(int i=0;i<cantidadSurtidores;i++){
-		delete surtidores[i];
-	}
-	delete semSurtidores;
-	SignalHandler::destruir();
+		for(int i=0;i<cantidadSurtidores;i++){
+			delete surtidores[i];
+		}
+		delete semSurtidores;
+		SignalHandler::destruir();
 	}catch(char const* s){
         std::cout << s;
 	}

@@ -16,8 +16,10 @@
 #include <signal.h>
 
 class LectorComandos {
+private:
+	bool debug;
 public:
-	LectorComandos();
+	LectorComandos(bool);
 	int run();
 	void consultaCaja();
 	void notificarFin();
