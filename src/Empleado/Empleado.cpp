@@ -65,8 +65,12 @@ int Empleado::run(){
 	iniciar();
 	while(1){
 		Auto a = transferencia->atenderAuto();
-		if(debug)
-			log->loggear("Intento tomar surtidor");
+		if(debug){
+			std::stringstream ss;
+			ss << "Recibí el auto: " << a.getPatente();
+			ss <<". Intento tomar surtidor.";
+			log->loggear(ss.str());
+		}
 		semSurtidores->p();
 		if(debug)
 			log->loggear("Hay Surtidor. Lo busco");

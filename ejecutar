@@ -1,2 +1,2 @@
 rm ConcuStation.log
-valgrind ./bin/ConcuStation
+valgrind --track-origins=yes --trace-children=yes --leak-check=full --show-reachable=yes ./bin/ConcuStation
