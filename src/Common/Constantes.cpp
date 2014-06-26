@@ -12,11 +12,11 @@ const std::string Constantes::TRANSFERENCIA = "./transferencia";
 const std::string Constantes::COLA = "./cola";
 
 
-const std::string Constantes::pathEmpleado = "bin/Empleado";
-const std::string Constantes::pathJefeEstacion = "bin/JefeEstacion";
-const std::string Constantes::pathConsultarCaja = "bin/ConsultarCaja";
-const std::string Constantes::pathLectorComandos = "bin/LectorComandos";
-const std::string Constantes::pathAccesoCaja = "bin/AccesoCaja";
+const std::string Constantes::pathEmpleado = "./Empleado";
+const std::string Constantes::pathJefeEstacion = "./JefeEstacion";
+const std::string Constantes::pathConsultarCaja = "./ConsultarCaja";
+const std::string Constantes::pathLectorComandos = "./LectorComandos";
+const std::string Constantes::pathAccesoCaja = "./AccesoCaja";
 
 //PATHS DE PABLO. NO ME LAS BORREN PLEASE, COMENTENLAS
 /*
@@ -25,9 +25,6 @@ const std::string Constantes::pathJefeEstacion = "./JefeEstacion/bin/Debug/jefeE
 const std::string Constantes::pathConsultarCaja = "./ConsultarCaja/bin/Debug/consultarCaja";
 const std::string Constantes::pathLectorComandos = "./LectorComandos/bin/Debug/lectorComandos";
 */
-
-
-const std::string Constantes::ARCHIVO_FIFO = "/tmp/fifo_init_jefe";
 
 const std::string Constantes::LOG = "./ConcuStation.log";
 

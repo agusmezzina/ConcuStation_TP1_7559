@@ -129,7 +129,7 @@ void Empleado::finalizar(){
 		delete(transferencia);
 
 		for(int i=0;i<cantidadSurtidores;i++){
-			delete surtidores[i];
+			delete (surtidores[i]);
 		}
 		delete semSurtidores;
 		SignalHandler::destruir();

@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[spanish]{babel}
 \usepackage{graphicx}
+\usepackage{pdfpages}
 
 \begin{document}
 
@@ -82,13 +83,19 @@ Todos los procesos de la simulación informan las acciones que realizan mediante
 \subsection{Diagrama de clases}
 Mecanismos de concurrencia:
 \\[1\baselineskip]
-\includegraphics[width=\textwidth]{clasesConcurrencia1}
+\includegraphics[width=\textwidth]{ClassDiagram0}
 Recursos:
 \\[1\baselineskip]
-\includegraphics[width=\textwidth]{clasesConcurrencia2}
+\includegraphics[width=\textwidth]{ClassDiagram1}
 Procesos:
 \\[1\baselineskip]
-\includegraphics[width=\textwidth]{clasesConcurrencia3}
+\includegraphics[width=\textwidth]{ClassDiagram2}
 \subsection{Diagrama de transición de estados: Empleado}
 \includegraphics[width=\textwidth]{diagramaTransicionEstadosEmpleado}
+
+%\section{Casos de Uso}
+%A continuación, se añade la especificación de los casos de uso del sistema:
+\includepdf[pages={1},pagecommand=\section{Casos de Uso}, offset=0mm -35mm]{CasosDeUso.pdf}
+\includepdf[pages={2-3}]{CasosDeUso.pdf}
+
 \end{document}
