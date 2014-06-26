@@ -79,7 +79,6 @@ JefeEstacion::~JefeEstacion() {
 	delete cola;
 	//Libero las transferencias
 	for(char i=0;i<cantidadEmpleados;i++){
-		transferencias[i]->eliminarSemaforos();
 		delete transferencias[i];
 	}
 	SignalHandler::destruir();

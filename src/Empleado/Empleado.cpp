@@ -49,6 +49,7 @@ int Empleado::handleSignal ( int signum ) {
 
 int Empleado::depositarEnCaja(int monto){
 	opCaja op;
+	memset(&op,0,sizeof(op));
 	op.mtype = 2;
 	op.id = this->id + 2;
 	op.valor = monto;

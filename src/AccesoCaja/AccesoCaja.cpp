@@ -56,6 +56,7 @@ int AccesoCaja::run(){
 }
 
 void AccesoCaja::finalizar(){
+	delete(colaRta);
 	delete(cola);
 	delete(log);
 	SignalHandler::destruir();
