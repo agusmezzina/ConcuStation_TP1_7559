@@ -15,5 +15,5 @@
 \contentsline {subsection}{\numberline {6.2}Log}{5}
 \contentsline {section}{\numberline {7}Diagramas}{6}
 \contentsline {subsection}{\numberline {7.1}Diagrama de clases}{6}
-\contentsline {subsection}{\numberline {7.2}Diagrama de transici\IeC {\'o}n de estados: Empleado}{8}
-\contentsline {section}{\numberline {8}Casos de Uso}{9}
+\contentsline {subsection}{\numberline {7.2}Diagrama de transici\IeC {\'o}n de estados: Empleado}{9}
+\contentsline {section}{\numberline {8}Casos de Uso}{10}

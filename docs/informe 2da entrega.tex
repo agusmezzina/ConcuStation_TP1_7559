@@ -22,8 +22,8 @@
 El presente trabajo práctico consiste en una simulación de la dinámica de operación de una estación de servicio. En ella, los operarios deben atender a los clientes entrantes utilizando los recursos de los cuales dispone la estación. El eje del problema es la comunicación y la sincronización de los operarios en el uso de dichos recursos para el correcto funcionamiento del negocio.
 Esta segunda entrega agrega la problemática del manejo de prioridades en la atención de autos entrantes y el acceso a la caja del lugar.
 \subsection{Modo de uso}
-Adjunto a este informe se encuentra el código fuente de la aplicación y un archivo Makefile para realizar la compilación. El sistema debe ser compilado utilizando la directiva ``make all'', el cuál generará cinco ejecutables con los programas que van a interactuar en el sistema.
-Para comenzar la simulación, debe ejecutarse en una consola el archivo ``ConcuStation''.
+Adjunto a este informe se encuentra el código fuente de la aplicación y un archivo Makefile para realizar la compilación. El sistema debe ser compilado utilizando la directiva ``make all'', el cuál generará seis ejecutables con los programas que van a interactuar en el sistema.
+Para comenzar la simulación, debe ejecutarse en una consola el comando ``ConcuStation''.
 El sistema pedirá al usuario que ingrese el número de empleados y de surtidores que posee la estación. Luego de ingresados, dará inicio a la simulación.
 Durante el transcurso de la misma, el usuario puede ingresar dos comandos por entrada estándar:
 \begin{enumerate}
@@ -77,25 +77,28 @@ Los Empleados y Consultar Caja esperan esta respuesta para continuar con su oper
 Al iniciar la simulación, el proceso Init crea todas las memorias compartidas, colas de mensajes y semáforos (estos últimos también los inicializa) necesarios para el funcionamiento del sistema. Luego lanza los procesos Jefe de Empleados, Lector de Comandos, Acceso Caja y todos los Empleados. El proceso Consultar Caja es lanzado por el Lector de Comandos cada vez que el usuario ingresa el comando ``c''. Este proceso finaliza luego de imprimir el valor de la Caja en pantalla.
 Cuando el Lector de Comandos recibe el comando ``q'', el sistema debe finalizar. Para esto, se envía la señal SIGTERM al proceso Init y este, a su vez, envía una señal similar a todos los Empleados, al Jefe de Estación y al proceso Acceso Caja. Estos procesos manejarán la señal eliminando todos sus recursos y finalizando correctamente. El proceso Init espera la finalización de los demás procesos y luego procede a elminar todos los canales de comunicación creados inicialmente, para luego finalizar.
 \subsection{Log}
-Todos los procesos de la simulación informan las acciones que realizan mediante la escritura a un único archivo denominado ``ConcuStation.log''. El mismo puede utilizarse para verificar el funcionamiento del sistema y el orden en el que se realizan las actividades. Para coordinar el acceso al archivo, se utilizan locks de escritura.
+En caso de funcionar en modo Debug, todos los procesos de la simulación informan las acciones que realizan mediante la escritura a un único archivo denominado ``ConcuStation.log''. El mismo puede utilizarse para verificar el funcionamiento del sistema y el orden en el que se realizan las actividades. Para coordinar el acceso al archivo, se utilizan locks de escritura.
 
 \section{Diagramas}
 \subsection{Diagrama de clases}
 Mecanismos de concurrencia:
 \\[1\baselineskip]
 \includegraphics[width=\textwidth]{ClassDiagram0}
+\newpage
 Recursos:
 \\[1\baselineskip]
 \includegraphics[width=\textwidth]{ClassDiagram1}
+\newpage
 Procesos:
 \\[1\baselineskip]
 \includegraphics[width=\textwidth]{ClassDiagram2}
+\newpage
 \subsection{Diagrama de transición de estados: Empleado}
 \includegraphics[width=\textwidth]{diagramaTransicionEstadosEmpleado}
 
 %\section{Casos de Uso}
 %A continuación, se añade la especificación de los casos de uso del sistema:
-\includepdf[pages={1},pagecommand=\section{Casos de Uso}, offset=0mm -35mm]{CasosDeUso.pdf}
-\includepdf[pages={2-3}]{CasosDeUso.pdf}
+\includepdf[pages={1},pagecommand=\section{Casos de Uso}, offset=20mm -35mm]{CasosDeUso.pdf}
+\includepdf[pages={2-3}, offset=20mm 0mm]{CasosDeUso.pdf}
 
 \end{document}
