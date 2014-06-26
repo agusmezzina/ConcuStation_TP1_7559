@@ -22,6 +22,9 @@ void JefeEstacion::iniciar(){
 	if(debug){
 		log = new Log(Constantes::LOG);
 		log->setProceso("JEFE ESTACION");
+		std::stringstream logInicio;
+		logInicio << "Inicia Jefe de Estación. " << "Mi pid es: " << getpid() << ".";
+		log->loggear(logInicio.str());
 	}
 	//canal = new FifoLectura(Constantes::ARCHIVO_FIFO);
     cola = new Cola<autoStruct> (Constantes::COLA,0);
@@ -44,14 +47,6 @@ bool JefeEstacion::asignarAEmpleado(const Auto& a){
 
 int JefeEstacion::run(){
 	iniciar();
-
-	//canal->abrir();
-	if(debug){
-		std::stringstream ss;
-		ss <<"Mi pid es:";
-		ss << getpid();
-		log->loggear(ss.str());
-	}
 
 	while(this->sigterm_handler.getGracefulQuit() == 0){
 		usleep(200000);

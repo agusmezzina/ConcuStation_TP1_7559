@@ -10,6 +10,7 @@
 
 typedef struct opCaja {
 	long mtype;
+	int id;
 	int valor;
 	bool escribir;
 } opCaja;

@@ -33,6 +33,9 @@ void Estacion::iniciar(){
     if(debug){
     	log = new Log(Constantes::LOG);
     	log->setProceso("INIT");
+    	std::stringstream logInicio;
+		logInicio << "Inicia Estación. " << "Mi pid es: " << getpid() << ".";
+		log->loggear(logInicio.str());
     }
 
 	for(char i=0;i<cantSurtidores;i++){
@@ -93,10 +96,10 @@ void Estacion::lanzarEmpleados(){
 		ss << i;
 		std::string id = ss.str();
 		std::string paramDebug;
-			if(debug)
-				paramDebug = "s";
-			else
-				paramDebug = "n";
+		if(debug)
+			paramDebug = "s";
+		else
+			paramDebug = "n";
 		char* const argvE[] = { const_cast<char*>(Constantes::pathEmpleado.c_str()),const_cast<char*>(id.c_str()),
 				const_cast<char*>(cant.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) NULL};
 		//file.flush();
@@ -105,7 +108,13 @@ void Estacion::lanzarEmpleados(){
 }
 
 void Estacion::lanzarAccesoCaja(){
-	char* const argv[] = { const_cast<char*>(Constantes::pathAccesoCaja.c_str()), (char*) 0 };
+	std::string paramDebug;
+	if(debug)
+		paramDebug = "s";
+	else
+		paramDebug = "n";
+
+	char* const argv[] = { const_cast<char*>(Constantes::pathAccesoCaja.c_str()), const_cast<char*>(paramDebug.c_str()), (char*) 0 };
 	accCaja = ProcessManager::run(Constantes::pathAccesoCaja.c_str(), argv);
 }
 

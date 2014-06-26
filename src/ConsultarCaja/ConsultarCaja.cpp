@@ -33,12 +33,18 @@ int ConsultarCaja::run(){
 int ConsultarCaja::solicitarValor(){
 	opCaja op;
 	op.mtype = 1;
+	op.id = 1;
 	op.escribir = false;
 	op.valor = 0;
 
 	valorCaja valor;
 
 	cola->escribir(op);
+
+	if(debug){
+		log->loggear("Intento leer el valor de la caja.");
+	}
+
 	colaRta->leer(1, &valor);
 	return valor.monto;
 }

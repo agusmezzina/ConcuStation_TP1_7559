@@ -27,6 +27,9 @@ void Empleado::iniciar(){
 		ss << id;
 		log = new Log(Constantes::LOG);
 		log->setProceso(ss.str());
+		std::stringstream logInicio;
+		logInicio << "Inicia Empleado " << id << ". Mi pid es: " << getpid() << ".";
+		log->loggear(logInicio.str());
 	}
 	transferencia = new TransferenciaEmpleado(Constantes::TRANSFERENCIA,id,id);
 	cola = new Cola<opCaja> (Constantes::COLA, 1);
@@ -46,7 +49,8 @@ int Empleado::handleSignal ( int signum ) {
 
 int Empleado::depositarEnCaja(int monto){
 	opCaja op;
-	op.mtype = this->id + 2;
+	op.mtype = 2;
+	op.id = this->id + 2;
 	op.valor = monto;
 	op.escribir = true;
 
@@ -82,10 +86,18 @@ int Empleado::run(){
 					log->loggear(ss3.str());
                 }
                 usleep(100000*n); //100*n
+                if(debug){
+                	std::stringstream ss;
+					ss << "Cobré un valor de ";
+					//ss2 << caja->depositar(10*n);//Cambiar por un random
+					ss << (10*n);
+					ss << ". Intento acceder a la Caja.";
+					log->loggear(ss.str());
+                }
                 int depositado = this->depositarEnCaja(10*n);
                 if(debug){
 					std::stringstream ss2;
-					ss2 << "Deposito en la caja. El valor actual es: ";
+					ss2 << "Deposité en la caja. El valor actual es: ";
 					//ss2 << caja->depositar(10*n);//Cambiar por un random
 					ss2 << depositado;
 					log->loggear(ss2.str());
